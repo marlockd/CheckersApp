@@ -7,4 +7,6 @@
         <string name="game_rules">Game rules</string>
         <string name="info">credits</string>
         <string name="todo">TODO</string>
+        <string name="tb_action_gamemode">Start new game:</string>
+        <string name="tb_label_gamemode">Gamemode</string>
 </resources>

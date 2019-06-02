@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GameMode" />
+        <activity android:name=".PlayerFirst" />
+        <activity android:name=".PlayerSecond" />
+        <activity android:name=".GameActivity" />
+        <activity android:name=".GameResult" />
+        <activity android:name=".AppInfo" />
     </application>
 
 </manifest>

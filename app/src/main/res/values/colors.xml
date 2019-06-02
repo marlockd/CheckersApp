@@ -18,6 +18,7 @@
     <color name="rc_grid_markup">#FFC6C6C6</color>
     <!--   Gray colors -->
     <color name="gray_disabled">#FFE2E2E5</color>
+    <color name="gray_lighter">#FFCDCDCD</color>
     <color name="gray_light">#FFBDBDBD</color>
     <color name="gray_medium">#FF909095</color>
     <color name="gray_dark">#FF474747</color>
