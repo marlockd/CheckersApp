@@ -1,5 +1,5 @@
 <resources>
-        <string name="app_name">ASproject</string>
+        <string name="app_name">RussianCheckers</string>
         <string name="myGit">marlockd</string>
         <string name="russianCaps">RUSSIAN</string>
         <string name="russianGame">CHECKERS</string>
@@ -7,5 +7,4 @@
         <string name="game_rules">Game rules</string>
         <string name="info">credits</string>
         <string name="todo">TODO</string>
-
 </resources>

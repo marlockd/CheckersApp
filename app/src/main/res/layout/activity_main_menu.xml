@@ -8,105 +8,137 @@
     tools:ignore="ExtraText">
 
     <ImageView
-        android:id="@+id/s1_git_icon"
+        android:id="@+id/iv_giticon"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_marginStart="26dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/todo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_github" />
 
     <TextView
-        android:id="@+id/s1_git_username"
+        android:id="@+id/tv_gitusername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/gerbera_light"
+        android:padding="2.5dp"
         android:text="@string/myGit"
         android:textColor="@color/rc_blue"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/s1_git_icon"
+        app:layout_constraintStart_toEndOf="@+id/iv_giticon"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.andrognito.kerningview.KerningTextView
-        android:id="@+id/s1_logo_russian"
+    <LinearLayout
+        android:id="@+id/textlogo_layer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="6dp"
-        android:fontFamily="@font/gerbera_bold"
-        android:text="@string/russianCaps"
-        android:textColor="@color/gray_dark"
-        android:textSize="54sp"
-        app:kv_spacing="100"
+        android:padding="0dp"
+        android:gravity="start"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/s1_git_icon" />
+        app:layout_constraintTop_toBottomOf="@id/iv_giticon">
 
-    <TextView
-        android:id="@+id/s1_logo_checkers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="-4sp"
-        android:fontFamily="@font/gerbera_light"
-        android:text="@string/russianGame"
-        android:textColor="@color/gray_dark"
 
-        android:textSize="26sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/s1_logo_russian" />
+        <TextView
+            android:id="@+id/tv_logo_russian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:fontFamily="@font/gerbera_bold"
+            android:paddingBottom="0dp"
+            android:paddingTop="1dp"
+            android:text="@string/russianCaps"
+            android:textColor="@color/gray_dark"
+            android:textSize="28pt" />
+
+        <TextView
+            android:id="@+id/tv_logo_checkers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:fontFamily="@font/gerbera_light"
+            android:letterSpacing="0.3"
+            android:translationY="-4dp"
+            android:text="@string/russianGame"
+            android:textColor="@color/gray_dark"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="190dp"
-        android:layout_height="290dp"
-        android:layout_marginTop="128dp"
+        android:id="@+id/iv_crown"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:contentDescription="@string/todo"
+        android:translationX="120dp"
+        android:alpha="0.8"
+        app:layout_constraintVertical_bias="0.44"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/s1rc_queen_cropped" />
+        app:srcCompat="@drawable/rs_crown" />
 
 
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="320dp"
-        android:layout_height="44dp"
-        android:background="@drawable/rc_play_btn"
-        android:layout_marginStart="20dp"
-        android:fontFamily="@font/gerbera_light"
-        android:text="@string/play"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="320dp"
-        android:layout_height="44dp"
-        android:background="@color/white"
-        android:layout_marginBottom="6dp"
-        android:layout_marginStart="20dp"
-        android:fontFamily="@font/gerbera_light"
-        android:text="@string/game_rules"
-        android:textColor="@color/rc_blue"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="17dp"
+    <LinearLayout
+        android:id="@+id/llv_btndock"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_marginBottom="16dp"
-        android:layout_marginStart="156dp"
-        android:fontFamily="@font/gerbera_light"
-        android:text="@string/info"
-        android:textColor="@color/rc_blue"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent">
+
+
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="85"
+            android:background="@drawable/rc_blue_btn"
+            android:fontFamily="@font/gerbera_light"
+            android:letterSpacing="0.12"
+            android:text="@string/play"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="8pt" />
+
+
+        <Button
+            android:id="@+id/btn_rules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rc_white_btn"
+            android:fontFamily="@font/gerbera_light"
+            android:translationY="-4dp"
+            android:letterSpacing="0.12"
+            android:text="@string/game_rules"
+            android:textAlignment="center"
+            android:textColor="@color/grad_blue_end"
+            android:textSize="8pt" />
+
+
+        <TextView
+            android:id="@+id/tv_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gerbera_light"
+            android:gravity="center"
+            android:text="@string/info"
+            android:textColor="@color/rc_blue"
+            android:textSize="8pt"
+            android:alpha="0.8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>
