@@ -14,39 +14,33 @@ class GameMode : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_mode)
 
-        /**   setting actual toolbar labels   */
+        /** Setting actual toolbar labels */
         tb_action.text = getString(R.string.tb_action_player)
         tb_label.text = getString(R.string.tb_label_gamemode)
 
-        /**   bottom navigation menu visual config   */
+        /** Bottom navigation menu visual config */
         bottom_nav_bar.setIconSize(29f, 29f)
         bottom_nav_bar.setTextVisibility(true)
-        bottom_nav_bar.enableItemShiftingMode(false)
-        bottom_nav_bar.enableShiftingMode(false)
-        bottom_nav_bar.enableAnimation(false)
-        for(i in 0 until bottom_nav_bar.menu.size()) {
-            bottom_nav_bar.setIconTintList(i, null)
-        }
+        for(i in 0 until bottom_nav_bar.menu.size()) bottom_nav_bar.setIconTintList(i, null)
         bottom_nav_bar.alpha = (0).toFloat()
 
-        /**  */
+        /** Listener for return-back label */
         val returnLinkListener = findViewById<View>(R.id.tv_link_back)
         returnLinkListener.setOnClickListener {
             startActivity(Intent(this, MainMenu::class.java))
         }
 
-
+        /** Listener for play button */
         val playListener = findViewById<View>(R.id.btn_play)
         playListener.setOnClickListener {
             startActivity(Intent(this, PlayerFirst::class.java))
         }
 
-
+        /** Listener for multi player button */
         val multiplayerListener = findViewById<View>(R.id.btn_multiplayer)
         multiplayerListener.setOnClickListener {
-            Toast.makeText(this, "Multiplayer is not available yet!!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Multi player is not available yet!!", Toast.LENGTH_SHORT).show()
         }
-
 
 
     }
