@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:icon="@drawable/ic_history"
-        android:title="" />
+        android:title="@string/navbar_history" />
     <item
         android:icon="@drawable/ic_return"
-        android:title="" />
+        android:title="@string/navbar_play_again" />
     <item
         android:icon="@drawable/ic_rules"
-        android:title="" />
+        android:title="@string/navbar_rules" />
     <item
         android:icon="@drawable/ic_exit"
-        android:title="" />
+        android:title="@string/navbar_exit" />
 </menu>

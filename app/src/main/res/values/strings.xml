@@ -1,12 +1,42 @@
 <resources>
-        <string name="app_name">RussianCheckers</string>
-        <string name="myGit">marlockd</string>
-        <string name="russianCaps">RUSSIAN</string>
-        <string name="russianGame">CHECKERS</string>
-        <string name="play">Play</string>
-        <string name="game_rules">Game rules</string>
-        <string name="info">credits</string>
-        <string name="todo">TODO</string>
-        <string name="tb_action_gamemode">Start new game:</string>
-        <string name="tb_label_gamemode">Gamemode</string>
+    <!--    Стандартные строки  -->
+    <string name="app_name">RussianCheckers</string>
+    <string name="todo">TODO</string>
+    <!--    Navugation menu icon labels  -->
+    <string name="navbar_history">History</string>
+    <string name="navbar_play_again">Play again</string>
+    <string name="navbar_rules">Rules</string>
+    <string name="navbar_exit">Exit</string>
+    <!--    MainMenu strings  -->
+    <string name="myGit">marlockd</string>
+    <string name="russianCaps">RUSSIAN</string>
+    <string name="russianGame">CHECKERS</string>
+    <string name="play">Play</string>
+    <string name="game_rules">Game rules</string>
+    <string name="info">credits</string>
+    <!--    Gamemode strings  -->
+    <string name="tb_action_gamemode">Start new game:</string>
+    <string name="tb_label_gamemode">Gamemode</string>
+    <string name="hotseat">Hotseat</string>
+    <string name="multiplayer">Multiplayer</string>
+    <string name="coming_soon">Coming soon</string>
+    <!--    Player #1 welcome -->
+    <string name="tb_action_player">Start new game</string>
+    <string name="tb_label_player1">Player #1</string>
+    <string name="welcome_text_player1">Hello!\nWhat\'s your name?</string>
+    <!--    Player #2 welcome  -->
+    <string name="tb_label_player2">Player #2</string>
+    <string name="welcome_text_player2">Wazzup!\nWhat\'s your name?</string>
+    <string name="next">next</string>
+    <!--    Toolbar on field  -->
+    <string name="playing_now">Now is playing:</string>
+    <!--    Strings for counter actions  -->
+    <string name="counter_last_move">last move</string>
+    <string name="counter_move">moves</string>
+    <string name="counter_score">SCORE</string>
+    <string name="counter_versus">VS</string>
+    <!--    Other strings  -->
+    <string name="example_name">Daniel</string>
+    <string name="edt_placeholder_player">type your name</string>
+
 </resources>

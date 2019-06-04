@@ -1,99 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".GameMode">
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    style="@style/rc_default">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_default"
+    <include layout="@layout/toolbar"/>
+
+    <TextView
+        android:id="@+id/tv_link_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to menu"
+        android:fontFamily="@font/gerbera_light"
+        android:textColor="@color/rc_blue"
+        android:textSize="10pt"
+        android:layout_marginStart="12pt"
+        android:layout_marginTop="28dp"
+        android:onClick="onClick"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_default"
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true" />
+
+    <ImageView
+        android:id="@+id/iv_crown"
+        android:layout_width="420dp"
+        android:layout_height="420dp"
+        android:alpha="0.8"
+        android:contentDescription="@string/todo"
+        android:rotation="-20"
+        android:translationX="-140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.48"
+        app:srcCompat="@drawable/rs_crown" />
+
+    <LinearLayout
+        android:id="@+id/gamemode_buttons"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:gravity="end"
+        android:translationX="180dp"
+        app:layout_constraintVertical_bias="0.76"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
 
         <LinearLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="12dp"
-            android:gravity="top"
-            android:background="@drawable/toolbar_border">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:translationX="60dp"
+            android:layout_gravity="end" >
 
-            <ImageView
-                android:id="@+id/tb_king1"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="12dp"
-                android:layout_gravity="bottom"
-                android:alpha="0.8"
-                android:contentDescription="@string/todo"
-                app:layout_constraintBottom_toBottomOf="@+id/toolbar_layout"
-                app:layout_constraintStart_toStartOf="@+id/toolbar_layout"
-                app:srcCompat="@drawable/ic_king_orange256" />
-
-            <ImageView
-                android:id="@+id/tb_king2"
-                android:layout_width="52dp"
-                android:layout_marginBottom="12dp"
-                android:layout_height="match_parent"
-                android:alpha="0.8"
-                android:contentDescription="@string/todo"
-                android:translationX="-4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/toolbar_layout"
-                app:layout_constraintStart_toEndOf="@+id/tb_king1"
-                app:srcCompat="@drawable/ic_king_blue256" />
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/toolbar_labels_layout"
-                android:layout_marginBottom="12dp"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="2dp"
-                app:layout_constraintStart_toEndOf="@id/tb_king2"
-                app:layout_constraintTop_toTopOf="@+id/toolbar_layout">
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gerbera_light"
+                android:text="@string/hotseat"
+                android:textColor="@color/rc_blue"
+                android:textSize="20sp"
+                android:layout_marginStart="28dp"
+                android:layout_marginBottom="-2.5dp" />
 
-                <TextView
-                    android:id="@+id/tb_action"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gerbera_light"
-                    android:text="@string/tb_action_gamemode"
-                    android:textColor="@color/rc_blue"
-                    android:textSize="8pt"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tb_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gerbera_bold"
-                    android:text="@string/tb_label_gamemode"
-                    android:textColor="@color/gray_dark"
-                    android:textSize="16pt"
-                    android:translationY="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-            </android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rc_blue_btn"
+                android:fontFamily="@font/gerbera_light"
+                android:letterSpacing="0.12"
+                android:text="@string/play"
+                android:textAlignment="textStart"
+                android:paddingStart="32dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/white"
+                android:textSize="10pt" />
 
         </LinearLayout>
 
-    </android.support.v7.widget.Toolbar>
 
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical"
+            android:layout_gravity="end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gerbera_light"
+                android:text="@string/multiplayer"
+                android:textColor="@color/rc_blue"
+                android:textSize="20sp"
+                android:layout_marginStart="28dp"
+                android:layout_marginBottom="-2.5dp" />
+
+            <Button
+                android:id="@+id/btn_multiplayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rc_disabled_btn"
+                android:fontFamily="@font/gerbera_light"
+                android:letterSpacing="0.12"
+                android:text="@string/coming_soon"
+                android:textAlignment="textStart"
+                android:paddingStart="32dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/white"
+                android:textSize="10pt" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/bottom_nav_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:background="@color/apl_gEF"
         android:elevation="4dp"
+        app:itemTextColor="@color/rc_blue"
         app:menu="@menu/bottom_nav_bar"
         app:layout_constraintBottom_toBottomOf="parent" />
 
