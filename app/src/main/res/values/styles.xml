@@ -24,23 +24,33 @@
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
-    <style name="Divider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:layout_marginTop">14dp</item>
-        <item name="android:background">@color/gray_disabled</item>
+    <style name="light_box">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
-    <style name="light_box">
-        <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">50dp</item>
+    <style name="dark_box" parent="light_box">
         <item name="android:background">@color/rc_grid_square</item>
     </style>
 
-    <style name="dark_box">
-        <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:background">@color/white</item>
+    <style name="markup" >
+        <item name="android:fontFamily">@font/gerbera_light</item>
+        <item name="android:textColor">@color/rc_grid_markup</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="markup_horisontal" parent="markup">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="markup_vertical" parent="markup">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
     </style>
 
 </resources>
