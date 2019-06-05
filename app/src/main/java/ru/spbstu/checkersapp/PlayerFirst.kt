@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.activity_player_first.*
 
 class PlayerFirst : AppCompatActivity() {
 

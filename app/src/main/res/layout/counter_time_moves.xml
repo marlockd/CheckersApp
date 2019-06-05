@@ -29,23 +29,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|bottom"
-            android:textSize="16pt"
+            android:textSize="32sp"
             android:translationY="4dp"
             android:fontFamily="@font/gerbera_regular"
             android:textColor="@color/gray_dark"
-            android:text="02:28"
-            android:letterSpacing="0.1" />
+            android:text="02:28" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="12sp"
+            android:gravity="center|top"
+            android:layout_gravity="top"
             android:fontFamily="@font/gerbera_light"
             android:textColor="@color/rc_blue"
-            android:text="12 moves"
-            android:letterSpacing="0.16"
-            android:layout_marginBottom="6dp" />
+            android:text="@string/moves" />
 
     </LinearLayout>
 
@@ -72,23 +69,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|bottom"
-            android:textSize="16pt"
+            android:textSize="32sp"
             android:translationY="4dp"
             android:fontFamily="@font/gerbera_regular"
             android:textColor="@color/gray_dark"
-            android:text="f5:b4"
-            android:letterSpacing="0.1" />
+            android:text="f5:b4" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="12sp"
+            android:gravity="center|top"
+            android:layout_gravity="top"
             android:fontFamily="@font/gerbera_light"
             android:textColor="@color/rc_blue"
-            android:text="last move"
-            android:letterSpacing="0.16"
-            android:layout_marginBottom="6dp" />
+            android:text="@string/last_move" />
 
     </LinearLayout>
 

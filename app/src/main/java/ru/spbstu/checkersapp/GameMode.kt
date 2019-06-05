@@ -14,11 +14,11 @@ class GameMode : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_mode)
 
-        /** Setting actual toolbar labels */
+        /** Setting actual Toolbar labels */
         tb_action.text = getString(R.string.tb_action_player)
         tb_label.text = getString(R.string.tb_label_gamemode)
 
-        /** Bottom navigation menu visual config */
+        /** Bottom Navigation menu visual config */
         bottom_nav_bar.setIconSize(29f, 29f)
         bottom_nav_bar.setTextVisibility(true)
         for(i in 0 until bottom_nav_bar.menu.size()) bottom_nav_bar.setIconTintList(i, null)

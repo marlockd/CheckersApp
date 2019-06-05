@@ -39,5 +39,10 @@
     <string name="example_name">Daniel</string>
     <string name="edt_placeholder_player">type your name</string>
     <string name="back_to_menu">Back to menu</string>
+    <string name="ten">10</string>
+    <string name="score">SCORE</string>
+    <string name="last_move">last move</string>
+    <string name="moves">moves</string>
+    <string name="opponent">Opponent:</string>
 
 </resources>

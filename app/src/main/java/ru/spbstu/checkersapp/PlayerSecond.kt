@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_player_second.*
 import kotlinx.android.synthetic.main.player_names_form.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -29,13 +30,14 @@ class PlayerSecond : AppCompatActivity() {
         val edtListener = findViewById<View>(R.id.rc_btn_play)
         edtListener.setOnClickListener {
 
+            val name1 = intent.getStringExtra("player1")
             val playerNameSecond = findViewById<EditText>(R.id.player2_edit_text)
 
             if (playerNameSecond.text.toString().matches(Regex("""([a-zA-Z]|[а-яА-Я]){2,12}"""))) {
 
                 /** Sending in intent Player names to next activity */
                 val intent = Intent(this@PlayerSecond, GameActivity::class.java)
-                intent.putExtra("player1", intent.getStringExtra("player1"))
+                intent.putExtra("player1", name1)
                 intent.putExtra("player2", playerNameSecond.text.toString())
                 startActivity(intent)
 

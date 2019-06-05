@@ -16,7 +16,23 @@
     <!-- GAME RESPONSIBLE GRID -->
     <include layout="@layout/game_grid" />
 
-
+    <!-- GAME RESPONSIBLE GRID
+    <Button
+        app:layout_constraintTop_toBottomOf="@id/game_grid"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/on_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="85"
+        android:background="@drawable/rc_blue_btn"
+        android:fontFamily="@font/gerbera_light"
+        android:letterSpacing="0.12"
+        android:text="@string/next"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="8pt" /> -->
 
 
 </android.support.constraint.ConstraintLayout>
