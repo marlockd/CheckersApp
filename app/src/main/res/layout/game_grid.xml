@@ -24,14 +24,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
-        <TextView style="@style/markup_horisontal" android:text="a" />
-        <TextView style="@style/markup_horisontal" android:text="b" />
-        <TextView style="@style/markup_horisontal" android:text="c" />
-        <TextView style="@style/markup_horisontal" android:text="d" />
-        <TextView style="@style/markup_horisontal" android:text="e" />
-        <TextView style="@style/markup_horisontal" android:text="f" />
-        <TextView style="@style/markup_horisontal" android:text="g" />
-        <TextView style="@style/markup_horisontal" android:text="h" />
+        <TextView style="@style/markup_horisontal" android:text="a" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="b" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="c" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="d" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="e" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="f" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="g" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="h" tools:ignore="HardcodedText"/>
 
         <Space android:layout_weight="0.5"
             android:layout_width="0dp"
@@ -53,14 +53,14 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp" />
 
-        <TextView style="@style/markup_vertical" android:text="8" />
-        <TextView style="@style/markup_vertical" android:text="7" />
-        <TextView style="@style/markup_vertical" android:text="6" />
-        <TextView style="@style/markup_vertical" android:text="5" />
-        <TextView style="@style/markup_vertical" android:text="4" />
-        <TextView style="@style/markup_vertical" android:text="3" />
-        <TextView style="@style/markup_vertical" android:text="2" />
-        <TextView style="@style/markup_vertical" android:text="1" />
+        <TextView style="@style/markup_vertical" android:text="8" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="7" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="6" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="5" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="4" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="3" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="2" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="1" tools:ignore="HardcodedText"/>
 
         <Space android:layout_weight="0.5"
             android:layout_width="wrap_content"
@@ -82,14 +82,14 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp" />
 
-        <TextView style="@style/markup_vertical" android:text="8" />
-        <TextView style="@style/markup_vertical" android:text="7" />
-        <TextView style="@style/markup_vertical" android:text="6" />
-        <TextView style="@style/markup_vertical" android:text="5" />
-        <TextView style="@style/markup_vertical" android:text="4" />
-        <TextView style="@style/markup_vertical" android:text="3" />
-        <TextView style="@style/markup_vertical" android:text="2" />
-        <TextView style="@style/markup_vertical" android:text="1" />
+        <TextView style="@style/markup_vertical" android:text="8" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="7" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="6" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="5" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="4" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="3" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="2" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_vertical" android:text="1" tools:ignore="HardcodedText"/>
 
         <Space android:layout_weight="0.5"
             android:layout_width="wrap_content"
@@ -110,14 +110,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
-        <TextView style="@style/markup_horisontal" android:text="a" />
-        <TextView style="@style/markup_horisontal" android:text="b" />
-        <TextView style="@style/markup_horisontal" android:text="c" />
-        <TextView style="@style/markup_horisontal" android:text="d" />
-        <TextView style="@style/markup_horisontal" android:text="e" />
-        <TextView style="@style/markup_horisontal" android:text="f" />
-        <TextView style="@style/markup_horisontal" android:text="g" />
-        <TextView style="@style/markup_horisontal" android:text="h" />
+        <TextView style="@style/markup_horisontal" android:text="a" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="b" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="c" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="d" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="e" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="f" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="g" tools:ignore="HardcodedText"/>
+        <TextView style="@style/markup_horisontal" android:text="h" tools:ignore="HardcodedText"/>
 
         <Space android:layout_weight="0.5"
             android:layout_width="0dp"
