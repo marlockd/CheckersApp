@@ -38,5 +38,6 @@
     <!--    Other strings  -->
     <string name="example_name">Daniel</string>
     <string name="edt_placeholder_player">type your name</string>
+    <string name="back_to_menu">Back to menu</string>
 
 </resources>

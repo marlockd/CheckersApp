@@ -248,7 +248,7 @@
             <Space android:layout_weight="0.05"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:ignore="NestedWeights" />
+                tools:ignore="NestedWeights,TooManyViews" />
 
         </LinearLayout>
 
