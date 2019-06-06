@@ -15,10 +15,28 @@ data class Figure(var player: Int, var isQueen: Boolean, var cell: String, var v
         if (state !in setOf("default", "queen", "invisible")) throw IllegalArgumentException()
         when (state)
         {
-            "default" -> if (player == 1) view.setImageResource(R.drawable.rc_figure_blue) else
-                if (player == 2) view.setImageResource(R.drawable.rc_figure_orange)
-            "queen" -> if (player == 1) view.setImageResource(R.drawable.rc_queen_blue) else
-                if (player == 2) view.setImageResource(R.drawable.rc_queen_orange)
+            "default" -> if (player == 1) {
+                player = 1
+                !isQueen
+                view.visibility = View.VISIBLE
+                view.setImageResource(R.drawable.rc_figure_blue)
+            } else if (player == 2) {
+                player = 2
+                !isQueen
+                view.visibility = View.VISIBLE
+                view.setImageResource(R.drawable.rc_figure_orange)
+            }
+            "queen" -> if (player == 1) {
+                player = 1
+                isQueen
+                view.visibility = View.VISIBLE
+                view.setImageResource(R.drawable.rc_queen_blue)
+            } else if (player == 2) {
+                player = 2
+                isQueen
+                view.visibility = View.VISIBLE
+                view.setImageResource(R.drawable.rc_queen_orange)
+            }
             "invisible" -> {
                 view.visibility = View.INVISIBLE
                 player = 0
@@ -27,7 +45,5 @@ data class Figure(var player: Int, var isQueen: Boolean, var cell: String, var v
         return Figure(player, isQueen, cell, view)
     }
 
-    // temporary solution, I know, that this looks very funny
-    fun becomeTo(other: Figure):Figure = other
 
 }

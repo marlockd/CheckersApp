@@ -20,6 +20,7 @@ import android.widget.*
 import ru.spbstu.checkersapp.data.Figure
 import ru.spbstu.checkersapp.data.Grid
 import ru.spbstu.checkersapp.data.GridCells
+import ru.spbstu.checkersapp.logic.Move
 import ru.spbstu.checkersapp.logic.TouchHandler
 import java.lang.IllegalArgumentException
 
@@ -57,8 +58,7 @@ class GameActivity : AppCompatActivity() {
         game_grid.layoutParams.height = normalWidth.toInt()
 
 
-        for (i in 0 until Grid().gameCells.size) when (i)
-        {
+        for (i in 0 until Grid().gameCells.size) when (i) {
             in 0..11 -> gridCells.cells.put(Grid().gameCells[i], Pair(cellById(Grid().gameCells[i]), Figure(2,
                     false, Grid().gameCells[i], ImageView(this)).setID().setState("default")))
             in 12..19 -> gridCells.cells.put(Grid().gameCells[i], Pair(cellById(Grid().gameCells[i]), Figure(0,
@@ -68,6 +68,15 @@ class GameActivity : AppCompatActivity() {
         }
 
         gridCells.init()
+
+        gridCells.cells["d4"]!!.second.player = 2
+        gridCells.cells["d4"]!!.second.setState("queen")
+
+        println(Move(this).targetCheck(gridCells.cells["c3"]!!.second, "d4", gridCells))
+
+        gridCells.cells["d4"]!!.second.setState("invisible")
+
+        println(Move(this).targetCheck(gridCells.cells["c3"]!!.second, "d4", gridCells))
 
 
         /**

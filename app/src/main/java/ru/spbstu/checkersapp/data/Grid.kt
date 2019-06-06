@@ -136,36 +136,18 @@ class Grid {
         }
     }
 
-    // (val player: Int, var isQueen: Boolean, var cell: String, var view: ImageView)
-
-    fun verticalMove(figure: Figure, vertical: Pair<String, Int>): List<String> {
-        if ((vertical.first !in verticals.keys) || (figure.cell !in verticals.getValue(vertical.first).first) ||
-                figure.cell !in verticals.getValue(vertical.first).second) throw IllegalArgumentException()
-
-        val actual = getVerticalByName(vertical.first, vertical.second)
-
-        val result = mutableListOf<String>()
-
-        if (figure.isQueen) {
-            actual.forEach {
-                if (GameActivity().cellById(it).childCount == 0) result.add(it)
-            }
-        } else {
-            if (actual.indexOf(figure.cell) - 1 >= 0) {
-                if (GameActivity().cellById(actual[actual.indexOf(figure.cell) - 1]).childCount == 0)
-                    result.add(actual[actual.indexOf(figure.cell) - 1])
-            }
-            if (actual.indexOf(figure.cell) + 1 >= 0) {
-                if (GameActivity().cellById(actual[actual.indexOf(figure.cell) + 1]).childCount == 0)
-                    result.add(actual[actual.indexOf(figure.cell) + 1])
-            }
-            }
-            return result
-        }
-
-    fun enemyCheck(figure: Figure) {
-
-        val verticals = verticalsCheck(figure.cell)
+    private fun verticalCheck(vertical: List<String>): Boolean {
+        verticals.values.forEach { if (vertical == it.first || vertical == it.second) return true }
+        return false
     }
+
+    fun isEmptyInRange(start: Int, end: Int, vertical: List<String>): Boolean {
+        if (!verticalCheck(vertical)) throw IllegalArgumentException()
+        if (start !in 0..vertical.size || end !in 0..vertical.size) return false
+        for (i in start until end) if (!GameActivity().gridCells.isEmpty(vertical[i])) return false
+        return true
+    }
+
+    // (val player: Int, var isQueen: Boolean, var cell: String, var view: ImageView)
 
 }

@@ -1,5 +1,7 @@
 package ru.spbstu.checkersapp.logic
 
+import android.content.ContentProvider
+import android.content.Context
 import android.provider.Settings.Global.getString
 import ru.spbstu.checkersapp.R
 import android.content.Intent
@@ -22,10 +24,12 @@ import android.widget.*
 import ru.spbstu.checkersapp.GameActivity
 import ru.spbstu.checkersapp.data.Figure
 import ru.spbstu.checkersapp.data.Grid
+import ru.spbstu.checkersapp.data.GridCells
 import ru.spbstu.checkersapp.logic.TouchHandler
 import kotlin.IllegalArgumentException
 
-class Move {
+class Move constructor(val context: Context) {
+
 
     fun isTargetCorrect(figure: Figure, target: String): Boolean {
         if (target !in Grid().gameCells) throw IllegalStateException()
@@ -49,10 +53,10 @@ class Move {
      *  "busyENEMYgo"  -> cell is busy by enemy figure, attack is possible here
      *  "busyENEMYqn"  -> cell is busy by enemy figure, attack is possible here and ready to upgrade figure to Queen
      *  "ERROR"        -> requested cell is not existing or not included in rule set
+     *  "noneSELF"     -> cell target is the same cell as figure
      */
 
-    /**
-    fun targetCheck(figure: Figure, target: String): String {
+    fun targetCheck(figure: Figure, target: String, gridCells: GridCells): String {
         var verticle = listOf<String>()
         val state = mutableListOf("ER", "ROR")
 
@@ -63,51 +67,61 @@ class Move {
             if (temp.contains(target) && temp.contains(figure.cell)) verticle = temp
         }
         if (verticle.isNullOrEmpty()) throw IllegalArgumentException()
+        if (figure.player == 2) verticle = verticle.reversed()
 
         val cellIndex = verticle.indexOf(figure.cell)
         val targetIndex = verticle.indexOf(target)
 
-        when (figure.isQueen) {
-
-            false ->
-            {
-                if (targetIndex - cellIndex == 1) {
-                    if (GameActivity().cellById(verticle[targetIndex]).childCount == 0) return "emptyMOVE"
-                    if (GameActivity().cellById(verticle[targetIndex]).childCount == 1) {
-                        if (GameActivity().cellById(verticle[targetIndex]).get)
+        if (targetIndex.minus(cellIndex) == 1) {
+            if (!gridCells.isEmpty(target)) {
+                if (gridCells.getTeam(target) == figure.player) return "busyALLY"
+                if (gridCells.getTeam(target) != figure.player &&
+                        gridCells.getTeam(target) != 0) {
+                    if (!verticle[targetIndex + 1].isNullOrBlank() &&
+                            gridCells.isEmpty(verticle[targetIndex + 1])) {
+                        if ((verticle[targetIndex + 1][1].toInt() == 8 && figure.player == 1) ||
+                                (verticle[targetIndex + 1][1].toInt() == 1 && figure.player == 2))
+                            return "busyENEMYqn"
+                        else return "busyENEMYgo"
                     }
-                }
-            }
+                } else return "busyENEMY"
+            } else return "emptyMOVE"
+        } else if (cellIndex.minus(targetIndex) == 1) {
+            if (!gridCells.isEmpty(target)) {
+                if (gridCells.getTeam(target) == figure.player) return "busyALLY"
+                if (gridCells.getTeam(target) != figure.player &&
+                        gridCells.getTeam(target) != 0) {
+                    if (!verticle[targetIndex + 1].isNullOrBlank() &&
+                            gridCells.isEmpty(verticle[targetIndex + 1])) return "busyENEMYgo"
+                } else return "busyENEMY"
+            } else if (figure.isQueen) return "emptyMOVE" else return "undefCANT"
+        } else if (cellIndex == targetIndex) return "noneSELF"
+        else return "undefCANT"
 
-            true ->
-            {
-
-            }
+        if (figure.isQueen) {
+            if (target in verticle && (target != verticle.last() || target != verticle.first())) {
+                if (targetIndex.minus(cellIndex) > 2 && gridCells.isEmpty(verticle[targetIndex])) {
+                    if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex.minus(cellIndex)),
+                                    verticle)) return "emptyMOVE"
+                } else if (targetIndex.minus(cellIndex) > 2 && gridCells.isEmpty(verticle[targetIndex + 1])) {
+                    if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex - cellIndex + 1),
+                                    verticle)) return "busyENEMYgo"
+                } else if (cellIndex.minus(targetIndex) > 2 && gridCells.isEmpty(verticle[targetIndex])) {
+                    if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex.minus(cellIndex)),
+                                    verticle)) return "emptyMOVE"
+                } else if (cellIndex.minus(targetIndex) > 2 && gridCells.isEmpty(verticle[targetIndex - 1])) {
+                    if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex - cellIndex + 1),
+                                    verticle)) return "busyENEMYgo"
+                } else if (target in verticle && (target == verticle.last() || target == verticle.first()))
+                    return "undefCANT"
+            } else return "undefCANT"
         }
-
+        return "ERROR"
     }
 
     fun moveTo(figure: Figure, target: String) {
         if (!isTargetCorrect(figure, target)) throw IllegalArgumentException()
-
-        val verticals = Grid().verticalsCheck(figure.cell)
-
-
-        when (figure.isQueen)
-        {
-            false -> {
-
-            }
-
-            true -> {
-
-            }
-        }
-
-
-                if (target !in Grid().getVerticalByName(it.first, it.second))
-
-        if (GameActivity().cellById(target).childCount == 0)
+        TODO()
     }
-*/
+
 }
