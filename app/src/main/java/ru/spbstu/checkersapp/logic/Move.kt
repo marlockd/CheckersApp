@@ -34,14 +34,11 @@ class Move constructor(val context: Context) {
     fun isTargetCorrect(figure: Figure, target: String): Boolean {
         if (target !in Grid().gameCells) throw IllegalStateException()
         val verticals = Grid().verticalsCheck(figure.cell)
-        if (verticals.size == 1) if (target !in Grid().getVerticalByName(
-                        verticals.first().first, verticals.first().second)) return false
-
-        if (verticals.size == 2) if ((target !in Grid().getVerticalByName(
-                        verticals.first().first, verticals.first().second)) &&
-                (target !in Grid().getVerticalByName(
-                        verticals.first().first, verticals.first().second))) return false
-        return true
+        if (figure.cell == "a1" || figure.cell == "h8")
+            return Grid().getVerticalByName("ALPHA", 1).contains("target")
+        if (Grid().getVerticalByName(verticals.first().first, verticals.first().second).contains(target)) return true
+        if (Grid().getVerticalByName(verticals.last().first, verticals.last().second).contains(target)) return true
+        return false
     }
 
     /** STATES LIST:
@@ -58,19 +55,26 @@ class Move constructor(val context: Context) {
 
     fun targetCheck(figure: Figure, target: String, gridCells: GridCells): String {
         var verticle = listOf<String>()
-        val state = mutableListOf("ER", "ROR")
 
         if (!isTargetCorrect(figure, target)) return "undefCANT"
 
-        Grid().verticalsCheck(figure.cell).forEach {
-            val temp = Grid().getVerticalByName(it.first, it.second)
-            if (temp.contains(target) && temp.contains(figure.cell)) verticle = temp
-        }
+        val verticals = Grid().verticalsCheck(figure.cell)
+
+        if (figure.cell == "a1" || figure.cell == "h8") verticle = Grid().getVerticalByName("ALPHA", 1)
+
+        if (Grid().getVerticalByName(verticals.first().first, verticals.first().second).contains(target) &&
+                Grid().getVerticalByName(verticals.first().first, verticals.first().second).contains(figure.cell))
+            verticle = Grid().getVerticalByName(verticals.first().first, verticals.first().second)
+
+        if (Grid().getVerticalByName(verticals.last().first, verticals.last().second).contains(target) &&
+                Grid().getVerticalByName(verticals.last().first, verticals.last().second).contains(figure.cell))
+            verticle = Grid().getVerticalByName(verticals.last().first, verticals.last().second)
         if (verticle.isNullOrEmpty()) throw IllegalArgumentException()
-        if (figure.player == 2) verticle = verticle.reversed()
 
         val cellIndex = verticle.indexOf(figure.cell)
         val targetIndex = verticle.indexOf(target)
+
+        if (targetIndex > cellIndex) verticle = verticle.reversed()
 
         if (targetIndex.minus(cellIndex) == 1) {
             if (!gridCells.isEmpty(target)) {
@@ -119,9 +123,33 @@ class Move constructor(val context: Context) {
         return "ERROR"
     }
 
-    fun moveTo(figure: Figure, target: String) {
-        if (!isTargetCorrect(figure, target)) throw IllegalArgumentException()
-        TODO()
+    fun moveTo(figure: Figure, target: String, gridCells: GridCells) {
+        when (targetCheck(figure, target, gridCells)) {
+            "emptyMOVE" -> {
+                gridCells.cells[target]!!.second.setState(figure.getState())
+                gridCells.cells[figure.cell]!!.second.setState(Pair("invisible", 0))
+            }
+            "emptyQUEEN" -> {
+                gridCells.cells[target]!!.second.setState(Pair("queen", figure.getState().second))
+                gridCells.cells[figure.cell]!!.second.setState(Pair("invisible", 0))
+            }
+            else -> println("Move is restricted by rules. Response state: ${targetCheck(figure, target, gridCells)}")
+        }
     }
 
 }
+
+
+/**
+
+"emptyMOVE"   ->  TODO()
+"emptyQUEEN"  ->  TODO()
+"undefCANT"   ->  TODO()
+"busyALLY"    ->  TODO()
+"busyENEMY"   ->  TODO()
+"busyENEMYgo" ->  TODO()
+"busyENEMYqn" ->  TODO()
+"ERROR"       ->  TODO()
+"noneSELF"    ->  TODO()
+
+*/

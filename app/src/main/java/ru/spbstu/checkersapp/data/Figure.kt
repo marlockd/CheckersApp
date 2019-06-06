@@ -11,31 +11,39 @@ data class Figure(var player: Int, var isQueen: Boolean, var cell: String, var v
         return Figure(player, isQueen, cell, view)
     }
 
-    fun setState(state: String): Figure {
-        if (state !in setOf("default", "queen", "invisible")) throw IllegalArgumentException()
-        when (state)
+    fun getState(): Pair<String, Int> {
+        if (player == 0) return Pair("invisible", 0)
+        return when (isQueen) {
+            true -> Pair("queen", player)
+            false -> Pair("default", player)
+        }
+    }
+
+    fun setState(state: Pair<String, Int>): Figure {
+        if (state.first !in setOf("default", "queen", "invisible")) throw IllegalArgumentException()
+        when (state.first)
         {
-            "default" -> if (player == 1) {
-                player = 1
+            "default" -> {
                 !isQueen
                 view.visibility = View.VISIBLE
-                view.setImageResource(R.drawable.rc_figure_blue)
-            } else if (player == 2) {
-                player = 2
-                !isQueen
-                view.visibility = View.VISIBLE
-                view.setImageResource(R.drawable.rc_figure_orange)
+                if (state.second == 1) {
+                    player = 1
+                    view.setImageResource(R.drawable.rc_figure_blue)
+                } else if (state.second== 2) {
+                    player = 2
+                    view.setImageResource(R.drawable.rc_figure_orange)
+                }
             }
-            "queen" -> if (player == 1) {
-                player = 1
+            "queen" -> {
                 isQueen
                 view.visibility = View.VISIBLE
-                view.setImageResource(R.drawable.rc_queen_blue)
-            } else if (player == 2) {
-                player = 2
-                isQueen
-                view.visibility = View.VISIBLE
-                view.setImageResource(R.drawable.rc_queen_orange)
+                if (state.second == 1) {
+                    player = 1
+                    view.setImageResource(R.drawable.rc_queen_blue)
+                } else if (state.second == 2) {
+                    player = 2
+                    view.setImageResource(R.drawable.rc_queen_orange)
+                }
             }
             "invisible" -> {
                 view.visibility = View.INVISIBLE

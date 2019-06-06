@@ -59,27 +59,40 @@ class GameActivity : AppCompatActivity() {
 
 
         for (i in 0 until Grid().gameCells.size) when (i) {
-            in 0..11 -> gridCells.cells.put(Grid().gameCells[i], Pair(cellById(Grid().gameCells[i]), Figure(2,
-                    false, Grid().gameCells[i], ImageView(this)).setID().setState("default")))
-            in 12..19 -> gridCells.cells.put(Grid().gameCells[i], Pair(cellById(Grid().gameCells[i]), Figure(0,
-                    false, Grid().gameCells[i], ImageView(this)).setID().setState("invisible")))
-            in 20..31 -> gridCells.cells.put(Grid().gameCells[i], Pair(cellById(Grid().gameCells[i]), Figure(1,
-                    false, Grid().gameCells[i], ImageView(this)).setID().setState("default")))
+            in 0..11 -> gridCells.cells[Grid().gameCells[i]] = Pair(cellById(Grid().gameCells[i]), Figure(2,
+                    false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("default", 2)))
+
+            in 12..19 -> gridCells.cells[Grid().gameCells[i]] = Pair(cellById(Grid().gameCells[i]), Figure(0,
+                    false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("invisible", 0)))
+
+            in 20..31 -> gridCells.cells[Grid().gameCells[i]] = Pair(cellById(Grid().gameCells[i]), Figure(1,
+                    false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("default", 1)))
         }
 
         gridCells.init()
 
-        gridCells.cells["d4"]!!.second.player = 2
-        gridCells.cells["d4"]!!.second.setState("queen")
+
+
+        Move(this).moveTo(gridCells.cells["c3"]!!.second, "d4", gridCells)
+        Move(this).moveTo(gridCells.cells["e3"]!!.second, "d4", gridCells)
+        Move(this).moveTo(gridCells.cells["d2"]!!.second, "c3", gridCells)
+        Move(this).moveTo(gridCells.cells["f4"]!!.second, "e5", gridCells)
+
+/**
+        gridCells.cells["d4"]!!.second.setState("queen", 2)
 
         println(Move(this).targetCheck(gridCells.cells["c3"]!!.second, "d4", gridCells))
 
-        gridCells.cells["d4"]!!.second.setState("invisible")
+        gridCells.cells["d4"]!!.second.setState("invisible", 0)
 
         println(Move(this).targetCheck(gridCells.cells["c3"]!!.second, "d4", gridCells))
 
+        gridCells.cells["d4"]!!.second.setState("queen", 2)
 
-        /**
+        gridCells.cells["b2"]!!.second.setState("invisible", 0)
+        gridCells.cells["b2"]!!.second.setState("queen", 2)
+
+
         gridCells.cells["e3"]!!.first.setBackgroundResource(R.color.rc_grid_square_move)
         gridCells.cells["e3"]!!.second.setState("queen")
 

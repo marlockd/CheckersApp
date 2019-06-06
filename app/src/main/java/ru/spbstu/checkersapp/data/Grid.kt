@@ -104,18 +104,6 @@ class Grid {
             "a1",       "c1",       "e1",       "g1"
     )
 
-    val orangeStart = listOf(
-                  "b8",       "d8",       "f8",      "h8",
-            "a7",       "c7",       "e7",      "g7",
-                  "b6",       "d6",       "f6",      "h6"
-    )
-
-    val blueStart = listOf(
-            "a3",       "c3",       "e3",       "g3",
-                  "b2",       "d2",       "f2",       "h2",
-            "a1",       "c1",       "e1",       "g1"
-    )
-
     fun verticalsCheck(cell: String): List<Pair<String, Int>> {
         val result = mutableListOf<Pair<String, Int>>()
         verticals.forEach {

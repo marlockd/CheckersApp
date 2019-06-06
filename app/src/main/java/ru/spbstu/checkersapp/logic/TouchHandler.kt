@@ -68,4 +68,8 @@ public class TouchHandler {
         throw IllegalStateException()
     }
 
+    fun touchActivity(cell: String) {
+
+    }
+
 }
