@@ -17,7 +17,9 @@ import kotlinx.android.synthetic.main.counter_time_moves.*
 import android.view.ViewGroup.LayoutParams.FILL_PARENT
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.*
+import ru.spbstu.checkersapp.data.Figure
 import ru.spbstu.checkersapp.data.Grid
+import ru.spbstu.checkersapp.data.GridCells
 import ru.spbstu.checkersapp.logic.TouchHandler
 import java.lang.IllegalArgumentException
 
@@ -25,6 +27,7 @@ import java.lang.IllegalArgumentException
 class GameActivity : AppCompatActivity() {
 
     private val player = mutableMapOf<Int, String>()
+    val gridCells = GridCells(mutableMapOf())
 
     fun cellById(id: String): FrameLayout {
         if (id !in Grid().gameCells) throw IllegalArgumentException()
@@ -36,8 +39,6 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        var moveTurn = 1
-
 //        for (i in 1 until 3) { player[i] = intent.getStringExtra("player$i") }
 
         /** Setting actual toolbar and counter labels */
@@ -46,9 +47,8 @@ class GameActivity : AppCompatActivity() {
         tb_label.text = "zalupa"
         tb_label_hidden.text = "blyad"
 
-        val displayMetrics = resources.displayMetrics
-
-        val normalWidth = displayMetrics.widthPixels - (displayMetrics.widthPixels * 0.04)
+        val normalWidth =
+                resources.displayMetrics.widthPixels - (resources.displayMetrics.widthPixels * 0.04)
 
         toolbar_default.layoutParams.width = normalWidth.toInt()
         game_counter_first.layoutParams.width = normalWidth.toInt()
@@ -56,60 +56,45 @@ class GameActivity : AppCompatActivity() {
         game_grid.layoutParams.width = normalWidth.toInt()
         game_grid.layoutParams.height = normalWidth.toInt()
 
-        val grid = Grid()
 
-        val figureList = mutableListOf<ImageView>()
-        for (i in 0 until 12) {
-            figureList.add(ImageView(this))
-            figureList[i].id = View.generateViewId()
-            figureList[i].setImageResource(R.drawable.rc_figure_blue)
+        for (i in 0 until Grid().gameCells.size) when (i)
+        {
+            in 0..11 -> gridCells.cells.put(Grid().gameCells[i], Pair(cellById(Grid().gameCells[i]), Figure(2,
+                    false, Grid().gameCells[i], ImageView(this)).setID().setState("default")))
+            in 12..19 -> gridCells.cells.put(Grid().gameCells[i], Pair(cellById(Grid().gameCells[i]), Figure(0,
+                    false, Grid().gameCells[i], ImageView(this)).setID().setState("invisible")))
+            in 20..31 -> gridCells.cells.put(Grid().gameCells[i], Pair(cellById(Grid().gameCells[i]), Figure(1,
+                    false, Grid().gameCells[i], ImageView(this)).setID().setState("default")))
         }
 
-        val figureListOrange = mutableListOf<ImageView>()
-        for (i in 0 until 12) {
-            figureListOrange.add(ImageView(this))
-            figureListOrange[i].id = View.generateViewId()
-            figureListOrange[i].setImageResource(R.drawable.rc_figure_orange)
-        }
+        gridCells.init()
 
-        for (i in 0 until 12) {
-            cellById(Grid().orangeStart[i]).addView(figureListOrange[i])
-            cellById(Grid().blueStart[i]).addView(figureList[i])
-        }
 
-        val octa = ((374 * displayMetrics.density) / 8).toInt()
+        /**
+        gridCells.cells["e3"]!!.first.setBackgroundResource(R.color.rc_grid_square_move)
+        gridCells.cells["e3"]!!.second.setState("queen")
+
+        gridCells.cells["d2"]!!.first.setBackgroundResource(R.color.rc_grid_square_attack)
+        gridCells.cells["d2"]!!.second.setState("queen")
+
+        gridCells.cells["d4"]!!.first.setBackgroundResource(R.color.rc_grid_square_move)
+        gridCells.cells["b8"]!!.second.setState("queen")
+
+        gridCells.cells["g5"]!!.first.setBackgroundResource(R.color.rc_grid_square_attack)
+        gridCells.cells["a1"]!!.second.setState("queen") */
+
+
+        val octa = ((374 * resources.displayMetrics.density) / 8).toInt()
 
         val handler = TouchHandler()
 
-        //layout.getChildCount();
 
-        grid_cells.setOnTouchListener {v: View,
-                                      m: MotionEvent ->
-            val hoverCell = handler.handleTouch(m, octa)
-            when(hoverCell)
-            {
-                in grid.blueStart -> tb_label_hidden.text = "blue"
-                in grid.orangeStart -> tb_label_hidden.text = "orange"
-                else -> tb_label_hidden.text = "empty cell"
-            }
-
-
-
+        grid_cells.setOnTouchListener { view, motion ->
+            val hoverCell = handler.handleTouch(motion, octa)
 
             true
         }
 
-        /** grid_cell_d4.background = getDrawable(R.color.rc_orange)
-            grid_cell_g6.setBackgroundColor(getColor(R.color.rc_blue)) */
 
-        /** DEBUG PART */
-
-        val dpHeight = displayMetrics.heightPixels / displayMetrics.density
-        val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-
-        println("\n/ DEBUG OUTPUT ----------/" +
-                "\n\t\tDISPLAY HEIGHT: ${dpHeight.toInt()}dp  &  ${displayMetrics.heightPixels}px" +
-                "\n\t\tDISPLAY WIDTH: ${dpWidth.toInt()}dp  ${displayMetrics.widthPixels}px&  " +
-                "\n/----------------------------------/")
     }
 }

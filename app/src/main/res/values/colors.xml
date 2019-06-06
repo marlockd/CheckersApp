@@ -14,8 +14,11 @@
     <color name="grad_blue_end">#D90079F2</color>
     <!--   Checkers table style  -->
     <color name="rc_grid_border">#FF99D0F8</color>
-    <color name="rc_grid_square">#FFF3F3F3</color>
     <color name="rc_grid_markup">#FFC6C6C6</color>
+    <color name="rc_grid_square">#FFF3F3F3</color>
+    <color name="rc_grid_square_move">#FFDCEDC8</color>
+    <color name="rc_grid_square_attack">#FFF8BBD0</color>
+
     <!--   Gray colors -->
     <color name="gray_disabled">#FFE2E2E5</color>
     <color name="gray_lighter">#FFCDCDCD</color>
