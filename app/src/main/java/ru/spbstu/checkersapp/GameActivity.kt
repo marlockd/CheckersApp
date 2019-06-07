@@ -1,34 +1,30 @@
 package ru.spbstu.checkersapp
 
-import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
 import android.view.View
-import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.counter_score_names.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.game_grid.*
-import android.util.DisplayMetrics
-import android.util.Log
-import android.view.MotionEvent
 import kotlinx.android.synthetic.main.counter_time_moves.*
-import android.view.ViewGroup.LayoutParams.FILL_PARENT
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.*
+import ru.spbstu.checkersapp.data.Cell
 import ru.spbstu.checkersapp.data.Figure
 import ru.spbstu.checkersapp.data.Grid
 import ru.spbstu.checkersapp.data.GridCells
-import ru.spbstu.checkersapp.logic.Move
+import ru.spbstu.checkersapp.logic.Init
 import ru.spbstu.checkersapp.logic.TouchHandler
 import java.lang.IllegalArgumentException
 
 
 class GameActivity : AppCompatActivity() {
 
-    private val player = mutableMapOf<Int, String>()
-    val gridCells = GridCells(mutableMapOf())
+    // Environment variables
+    private val gridCells = GridCells(mutableMapOf())
+    private val init = Init(1,
+            "First",  "Second",    // Player names
+            0, 0,                // Scores
+            1)
 
     fun cellById(id: String): FrameLayout {
         if (id !in Grid().gameCells) throw IllegalArgumentException()
@@ -40,83 +36,48 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-//        for (i in 1 until 3) { player[i] = intent.getStringExtra("player$i") }
+//      init.setNames()
+
+        tb_label.text = init.firstPlayer
+        tb_label_hidden.text = init.secondPlayer
 
         /** Setting actual toolbar and counter labels */
         tb_action.text = getString(R.string.playing_now).toString()
         toolbar_labels_versus.visibility = View.VISIBLE
-        tb_label.text = "zalupa"
-        tb_label_hidden.text = "blyad"
 
-        val normalWidth =
-                resources.displayMetrics.widthPixels - (resources.displayMetrics.widthPixels * 0.04)
+        fun changePlayer() {
+            val second = tb_label_hidden.text
+            tb_label_hidden.text = tb_label.text
+            tb_label.text = second
+        }
 
-        toolbar_default.layoutParams.width = normalWidth.toInt()
-        game_counter_first.layoutParams.width = normalWidth.toInt()
-        game_counter_second.layoutParams.width = normalWidth.toInt()
-        game_grid.layoutParams.width = normalWidth.toInt()
-        game_grid.layoutParams.height = normalWidth.toInt()
 
+        toolbar_default.layoutParams.width = init.normalWidth(resources)
+        game_counter_first.layoutParams.width = init.normalWidth(resources)
+        game_counter_second.layoutParams.width = init.normalWidth(resources)
+        game_grid.layoutParams.width = init.normalWidth(resources)
+        game_grid.layoutParams.height = init.normalWidth(resources)
 
         for (i in 0 until Grid().gameCells.size) when (i) {
-            in 0..11 -> gridCells.cells[Grid().gameCells[i]] = Pair(cellById(Grid().gameCells[i]), Figure(2,
+            in 0..11 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"), Figure(2,
                     false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("default", 2)))
 
-            in 12..19 -> gridCells.cells[Grid().gameCells[i]] = Pair(cellById(Grid().gameCells[i]), Figure(0,
+            in 12..19 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"), Figure(0,
                     false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("invisible", 0)))
 
-            in 20..31 -> gridCells.cells[Grid().gameCells[i]] = Pair(cellById(Grid().gameCells[i]), Figure(1,
+            in 20..31 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"), Figure(1,
                     false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("default", 1)))
         }
+        gridCells.initTable()
 
-        gridCells.init()
+            grid_cells.setOnTouchListener { view, motion ->
 
+                TouchHandler().touchActivityHover(TouchHandler().handleTouch(
+                            motion, init.cellWidth(resources)), gridCells, init)
+                init.changeTurn()
 
-
-        Move(this).moveTo(gridCells.cells["c3"]!!.second, "d4", gridCells)
-        Move(this).moveTo(gridCells.cells["e3"]!!.second, "d4", gridCells)
-        Move(this).moveTo(gridCells.cells["d2"]!!.second, "c3", gridCells)
-        Move(this).moveTo(gridCells.cells["f4"]!!.second, "e5", gridCells)
-
-/**
-        gridCells.cells["d4"]!!.second.setState("queen", 2)
-
-        println(Move(this).targetCheck(gridCells.cells["c3"]!!.second, "d4", gridCells))
-
-        gridCells.cells["d4"]!!.second.setState("invisible", 0)
-
-        println(Move(this).targetCheck(gridCells.cells["c3"]!!.second, "d4", gridCells))
-
-        gridCells.cells["d4"]!!.second.setState("queen", 2)
-
-        gridCells.cells["b2"]!!.second.setState("invisible", 0)
-        gridCells.cells["b2"]!!.second.setState("queen", 2)
-
-
-        gridCells.cells["e3"]!!.first.setBackgroundResource(R.color.rc_grid_square_move)
-        gridCells.cells["e3"]!!.second.setState("queen")
-
-        gridCells.cells["d2"]!!.first.setBackgroundResource(R.color.rc_grid_square_attack)
-        gridCells.cells["d2"]!!.second.setState("queen")
-
-        gridCells.cells["d4"]!!.first.setBackgroundResource(R.color.rc_grid_square_move)
-        gridCells.cells["b8"]!!.second.setState("queen")
-
-        gridCells.cells["g5"]!!.first.setBackgroundResource(R.color.rc_grid_square_attack)
-        gridCells.cells["a1"]!!.second.setState("queen") */
-
-
-        val octa = ((374 * resources.displayMetrics.density) / 8).toInt()
-
-        val handler = TouchHandler()
-
-
-        grid_cells.setOnTouchListener { view, motion ->
-            val hoverCell = handler.handleTouch(motion, octa)
-
-            true
+                true
+            }
         }
 
-
-    }
 }

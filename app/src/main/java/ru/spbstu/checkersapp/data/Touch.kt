@@ -1,7 +1,6 @@
 package ru.spbstu.checkersapp.data
 
 import android.content.res.Resources
-import android.widget.FrameLayout
 import ru.spbstu.checkersapp.GameActivity
 
 class Touch {

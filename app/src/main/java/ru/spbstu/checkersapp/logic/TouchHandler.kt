@@ -1,11 +1,14 @@
 package ru.spbstu.checkersapp.logic
 
 import android.view.MotionEvent
-import java.lang.IllegalStateException
+import ru.spbstu.checkersapp.data.Grid
+import ru.spbstu.checkersapp.data.GridCells
 
-public class TouchHandler {
+class TouchHandler {
 
-    public fun handleTouch(m: MotionEvent, octa: Int): String {
+
+
+    fun handleTouch(m: MotionEvent, octa: Int): String {
         val pointerCount = m.pointerCount
 
         for (i in 0 until pointerCount)
@@ -17,16 +20,6 @@ public class TouchHandler {
             val actionIndex = m.actionIndex
             var actionString: String
             var grid = ""
-
-            when (action)
-            {
-                MotionEvent.ACTION_DOWN -> actionString = "DOWN"
-                MotionEvent.ACTION_UP -> actionString = "UP"
-                MotionEvent.ACTION_POINTER_DOWN -> actionString = "PNTR DOWN"
-                MotionEvent.ACTION_POINTER_UP -> actionString = "PNTR UP"
-                MotionEvent.ACTION_MOVE -> actionString = "MOVE"
-                else -> actionString = ""
-            }
 
             when (x.toInt())
             {
@@ -56,10 +49,7 @@ public class TouchHandler {
                 else -> column = 1
             }
 
-            val touchStatus =
-                    "Action: $actionString Index: $actionIndex ID: $id X: $x Y: $y"
-
-            if (id == 0) {
+            if (id == 0 && action == MotionEvent.ACTION_DOWN) {
                 return listOf(grid, column.toString()).joinToString("")
             }
             else
@@ -68,8 +58,32 @@ public class TouchHandler {
         throw IllegalStateException()
     }
 
-    fun touchActivity(cell: String) {
-
+    fun touchActivityHover(cell: String, gridCells: GridCells, init: Init) {
+        val availableMoves: Pair<List<String>, List<String>>
+        if (cell in Grid().gameCells) {
+            val state = gridCells.cells[cell]!!.first.state
+            when (state) {
+                "default" -> {
+                    if (!gridCells.isEmpty(cell) && gridCells.cells[cell]!!.second.player == init.turn) {
+                        availableMoves = gridCells.availableMoves(cell, init.turn, gridCells)
+                        availableMoves.first.forEach { gridCells.setHover(it, cell) }
+                        availableMoves.second.forEach { gridCells.setAttack(it, cell) }
+                    }
+                }
+                "hover" -> {
+                    println(gridCells.cells[cell]!!.first.hoverBy)
+                    println(cell)
+                    Move().moveTo(gridCells.cells[cell]!!.first.hoverBy, cell, gridCells)
+                    gridCells.clearHover()
+                }
+                "attack" -> {
+                    println(gridCells.cells[cell]!!.first.hoverBy)
+                    println(cell)
+                    Move().attackTo(gridCells.cells[cell]!!.first.hoverBy, cell, gridCells, init)
+                    gridCells.clearHover()
+                }
+            }
+        }
     }
 
 }

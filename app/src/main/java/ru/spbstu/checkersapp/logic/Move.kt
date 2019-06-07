@@ -1,34 +1,10 @@
 package ru.spbstu.checkersapp.logic
 
-import android.content.ContentProvider
-import android.content.Context
-import android.provider.Settings.Global.getString
-import ru.spbstu.checkersapp.R
-import android.content.Intent
-import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.text.Layout
-import android.view.View
-import kotlinx.android.synthetic.main.activity_game.*
-import kotlinx.android.synthetic.main.counter_score_names.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.main.game_grid.*
-import android.util.DisplayMetrics
-import android.util.Log
-import android.view.MotionEvent
-import kotlinx.android.synthetic.main.counter_time_moves.*
-import android.view.ViewGroup.LayoutParams.FILL_PARENT
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.*
-import ru.spbstu.checkersapp.GameActivity
 import ru.spbstu.checkersapp.data.Figure
 import ru.spbstu.checkersapp.data.Grid
 import ru.spbstu.checkersapp.data.GridCells
-import ru.spbstu.checkersapp.logic.TouchHandler
-import kotlin.IllegalArgumentException
 
-class Move constructor(val context: Context) {
+class Move {
 
 
     fun isTargetCorrect(figure: Figure, target: String): Boolean {
@@ -71,10 +47,13 @@ class Move constructor(val context: Context) {
             verticle = Grid().getVerticalByName(verticals.last().first, verticals.last().second)
         if (verticle.isNullOrEmpty()) throw IllegalArgumentException()
 
+        if (figure.player == 2) verticle = verticle.asReversed()
+
         val cellIndex = verticle.indexOf(figure.cell)
         val targetIndex = verticle.indexOf(target)
 
-        if (targetIndex > cellIndex) verticle = verticle.reversed()
+
+        println(verticle)
 
         if (targetIndex.minus(cellIndex) == 1) {
             if (!gridCells.isEmpty(target)) {
@@ -106,16 +85,16 @@ class Move constructor(val context: Context) {
             if (target in verticle && (target != verticle.last() || target != verticle.first())) {
                 if (targetIndex.minus(cellIndex) > 2 && gridCells.isEmpty(verticle[targetIndex])) {
                     if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex.minus(cellIndex)),
-                                    verticle)) return "emptyMOVE"
+                                    verticle, gridCells)) return "emptyMOVE"
                 } else if (targetIndex.minus(cellIndex) > 2 && gridCells.isEmpty(verticle[targetIndex + 1])) {
                     if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex - cellIndex + 1),
-                                    verticle)) return "busyENEMYgo"
+                                    verticle, gridCells)) return "busyENEMYgo"
                 } else if (cellIndex.minus(targetIndex) > 2 && gridCells.isEmpty(verticle[targetIndex])) {
                     if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex.minus(cellIndex)),
-                                    verticle)) return "emptyMOVE"
+                                    verticle, gridCells)) return "emptyMOVE"
                 } else if (cellIndex.minus(targetIndex) > 2 && gridCells.isEmpty(verticle[targetIndex - 1])) {
                     if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex - cellIndex + 1),
-                                    verticle)) return "busyENEMYgo"
+                                    verticle, gridCells)) return "busyENEMYgo"
                 } else if (target in verticle && (target == verticle.last() || target == verticle.first()))
                     return "undefCANT"
             } else return "undefCANT"
@@ -123,33 +102,39 @@ class Move constructor(val context: Context) {
         return "ERROR"
     }
 
-    fun moveTo(figure: Figure, target: String, gridCells: GridCells) {
-        when (targetCheck(figure, target, gridCells)) {
+    fun moveTo(cell: String, target: String, gridCells: GridCells) {
+        when (targetCheck(gridCells.cells[cell]!!.second, target, gridCells)) {
             "emptyMOVE" -> {
-                gridCells.cells[target]!!.second.setState(figure.getState())
-                gridCells.cells[figure.cell]!!.second.setState(Pair("invisible", 0))
+                gridCells.cells[target]!!.second.setState(gridCells.cells[cell]!!.second.getState())
+                gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
             }
             "emptyQUEEN" -> {
-                gridCells.cells[target]!!.second.setState(Pair("queen", figure.getState().second))
-                gridCells.cells[figure.cell]!!.second.setState(Pair("invisible", 0))
+                gridCells.cells[target]!!.second.setState(Pair("queen", gridCells.cells[cell]!!.second.getState().second))
+                gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
             }
-            else -> println("Move is restricted by rules. Response state: ${targetCheck(figure, target, gridCells)}")
+            else -> println("Move is restricted by rules. Response state: ${targetCheck(gridCells.cells[cell]!!.second, target, gridCells)}")
         }
     }
 
+    fun attackTo(cell: String, target: String, gridCells: GridCells, init: Init) {
+        val verticals = Grid().verticalsCheck(cell)
+        var verticle = listOf<String>()
+        if (cell == "a1" || cell == "h8")
+            if (Grid().getVerticalByName("ALPHA", 1).contains("target")) verticle = Grid().getVerticalByName("ALPHA", 1)
+        if (Grid().getVerticalByName(verticals.first().first, verticals.first().second).contains(target))
+            verticle = Grid().getVerticalByName(verticals.first().first, verticals.first().second)
+        if (Grid().getVerticalByName(verticals.last().first, verticals.last().second).contains(target))
+            verticle = Grid().getVerticalByName(verticals.last().first, verticals.last().second)
+
+        val cellIndex = verticle.indexOf(cell)
+        val targetIndex = verticle.indexOf(target)
+        val enemy = verticle[targetIndex - cellIndex]
+
+        gridCells.cells[target]!!.second.setState(gridCells.cells[cell]!!.second.getState())
+        gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
+        gridCells.cells[gridCells.cells[enemy]!!.second.cell]!!.second.setState(Pair("invisible", 0))
+        init.addPoint(gridCells.cells[cell]!!.second.player)
+
+    }
+
 }
-
-
-/**
-
-"emptyMOVE"   ->  TODO()
-"emptyQUEEN"  ->  TODO()
-"undefCANT"   ->  TODO()
-"busyALLY"    ->  TODO()
-"busyENEMY"   ->  TODO()
-"busyENEMYgo" ->  TODO()
-"busyENEMYqn" ->  TODO()
-"ERROR"       ->  TODO()
-"noneSELF"    ->  TODO()
-
-*/

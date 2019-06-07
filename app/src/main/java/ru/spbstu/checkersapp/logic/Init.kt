@@ -1,49 +1,33 @@
 package ru.spbstu.checkersapp.logic
 
-import android.provider.Settings.Global.getString
-import ru.spbstu.checkersapp.R
 import android.content.Intent
-import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.text.Layout
-import android.view.View
-import kotlinx.android.synthetic.main.activity_game.*
-import kotlinx.android.synthetic.main.counter_score_names.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.main.game_grid.*
-import android.util.DisplayMetrics
-import android.util.Log
-import android.view.MotionEvent
-import kotlinx.android.synthetic.main.counter_time_moves.*
-import android.view.ViewGroup.LayoutParams.FILL_PARENT
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.*
-import ru.spbstu.checkersapp.data.Figure
-import ru.spbstu.checkersapp.data.Grid
-import ru.spbstu.checkersapp.logic.TouchHandler
-import java.lang.IllegalArgumentException
+import android.content.res.Resources
 
-class Init {
+data class Init(var turn: Int, var firstPlayer: String, var secondPlayer: String,
+                var scoreFirst: Int, var scoreSecond: Int, var lastMove: Int) {
 
-    fun touchInit(cell: String) {
-
+    fun changeTurn() = when (turn) {
+        1 -> turn = 2
+        2 -> turn = 1
+        else -> throw IllegalStateException("what?")
     }
 
-    /** Setting actual toolbar and counter labels
-    tb_action.text = getString(R.string.playing_now).toString()
-    toolbar_labels_versus.visibility = View.VISIBLE
-    tb_label.text = "zalupa"
-    tb_label_hidden.text = "blyad"
+    fun setNames(intent: Intent) {
+        firstPlayer = intent.getStringExtra("player1")
+        secondPlayer = intent.getStringExtra("player2")
+    }
 
-    val displayMetrics = resources.displayMetrics
+    fun addPoint(player: Int) {
+        when (player) {
+            1 -> scoreFirst++
+            2 -> scoreSecond++
+        }
+    }
 
-    val normalWidth = displayMetrics.widthPixels - (displayMetrics.widthPixels * 0.04)
+    fun normalWidth(resources: Resources): Int =
+            resources.displayMetrics.widthPixels - (resources.displayMetrics.widthPixels * 0.04).toInt()
 
-    toolbar_default.layoutParams.width = normalWidth.toInt()
-    game_counter_first.layoutParams.width = normalWidth.toInt()
-    game_counter_second.layoutParams.width = normalWidth.toInt()
-    game_grid.layoutParams.width = normalWidth.toInt()
-    game_grid.layoutParams.height = normalWidth.toInt()     */
+    fun cellWidth(resources: Resources): Int =
+            ((374 * resources.displayMetrics.density) / 8).toInt()
 
 }
