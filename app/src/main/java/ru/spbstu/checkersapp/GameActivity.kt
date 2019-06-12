@@ -51,7 +51,6 @@ class GameActivity : AppCompatActivity() {
             tb_label.text = second
         }
 
-
         toolbar_default.layoutParams.width = init.normalWidth(resources)
         game_counter_first.layoutParams.width = init.normalWidth(resources)
         game_counter_second.layoutParams.width = init.normalWidth(resources)
@@ -72,8 +71,8 @@ class GameActivity : AppCompatActivity() {
 
             grid_cells.setOnTouchListener { view, motion ->
 
-                TouchHandler().touchActivityHover(TouchHandler().handleTouch(
-                            motion, init.cellWidth(resources)), gridCells, init)
+                TouchHandler(gridCells, init).touchActivityHover(TouchHandler(gridCells, init).handleTouch(
+                            motion, init.cellWidth(resources)))
                 init.changeTurn()
 
                 true

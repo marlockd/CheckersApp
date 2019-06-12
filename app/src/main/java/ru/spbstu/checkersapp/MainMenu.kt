@@ -18,20 +18,5 @@ class MainMenu : AppCompatActivity() {
         }
 
 
-        /** activities info & rules not finished yet
-
-        val rulesListener = findViewById<View>(R.id.btn_rules)
-        rulesListener.setOnClickListener {
-            startActivity(Intent(this, AppInfo::class.java))
-        }
-
-
-        val infoListener = findViewById<View>(R.id.tv_credits)
-        infoListener.setOnClickListener {
-            startActivity(Intent(this, AppInfo::class.java))
-        }
-
-        */
-
     }
 }

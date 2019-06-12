@@ -4,7 +4,7 @@ import ru.spbstu.checkersapp.data.Figure
 import ru.spbstu.checkersapp.data.Grid
 import ru.spbstu.checkersapp.data.GridCells
 
-class Move {
+class Move(var gridCells: GridCells, var init: Init) {
 
 
     fun isTargetCorrect(figure: Figure, target: String): Boolean {
@@ -29,7 +29,7 @@ class Move {
      *  "noneSELF"     -> cell target is the same cell as figure
      */
 
-    fun targetCheck(figure: Figure, target: String, gridCells: GridCells): String {
+    fun targetCheck(figure: Figure, target: String): String {
         var verticle = listOf<String>()
 
         if (!isTargetCorrect(figure, target)) return "undefCANT"
@@ -60,7 +60,7 @@ class Move {
                 if (gridCells.getTeam(target) == figure.player) return "busyALLY"
                 if (gridCells.getTeam(target) != figure.player &&
                         gridCells.getTeam(target) != 0) {
-                    if (!verticle[targetIndex + 1].isNullOrBlank() &&
+                    if (!verticle[targetIndex + 1].isBlank() &&
                             gridCells.isEmpty(verticle[targetIndex + 1])) {
                         if ((verticle[targetIndex + 1][1].toInt() == 8 && figure.player == 1) ||
                                 (verticle[targetIndex + 1][1].toInt() == 1 && figure.player == 2))
@@ -74,7 +74,7 @@ class Move {
                 if (gridCells.getTeam(target) == figure.player) return "busyALLY"
                 if (gridCells.getTeam(target) != figure.player &&
                         gridCells.getTeam(target) != 0) {
-                    if (!verticle[targetIndex + 1].isNullOrBlank() &&
+                    if (!verticle[targetIndex + 1].isBlank() &&
                             gridCells.isEmpty(verticle[targetIndex + 1])) return "busyENEMYgo"
                 } else return "busyENEMY"
             } else if (figure.isQueen) return "emptyMOVE" else return "undefCANT"
@@ -102,8 +102,8 @@ class Move {
         return "ERROR"
     }
 
-    fun moveTo(cell: String, target: String, gridCells: GridCells) {
-        when (targetCheck(gridCells.cells[cell]!!.second, target, gridCells)) {
+    fun moveTo(cell: String, target: String) {
+        when (targetCheck(gridCells.cells[cell]!!.second, target)) {
             "emptyMOVE" -> {
                 gridCells.cells[target]!!.second.setState(gridCells.cells[cell]!!.second.getState())
                 gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
@@ -112,11 +112,11 @@ class Move {
                 gridCells.cells[target]!!.second.setState(Pair("queen", gridCells.cells[cell]!!.second.getState().second))
                 gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
             }
-            else -> println("Move is restricted by rules. Response state: ${targetCheck(gridCells.cells[cell]!!.second, target, gridCells)}")
+            else -> println("Move is restricted by rules. Response state: ${targetCheck(gridCells.cells[cell]!!.second, target)}")
         }
     }
 
-    fun attackTo(cell: String, target: String, gridCells: GridCells, init: Init) {
+    fun attackTo(cell: String, target: String) {
         val verticals = Grid().verticalsCheck(cell)
         var verticle = listOf<String>()
         if (cell == "a1" || cell == "h8")

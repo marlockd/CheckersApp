@@ -4,7 +4,7 @@ import android.view.MotionEvent
 import ru.spbstu.checkersapp.data.Grid
 import ru.spbstu.checkersapp.data.GridCells
 
-class TouchHandler {
+class TouchHandler(var gridCells: GridCells, var init: Init) {
 
 
 
@@ -58,14 +58,14 @@ class TouchHandler {
         throw IllegalStateException()
     }
 
-    fun touchActivityHover(cell: String, gridCells: GridCells, init: Init) {
+    fun touchActivityHover(cell: String) {
         val availableMoves: Pair<List<String>, List<String>>
         if (cell in Grid().gameCells) {
             val state = gridCells.cells[cell]!!.first.state
             when (state) {
                 "default" -> {
                     if (!gridCells.isEmpty(cell) && gridCells.cells[cell]!!.second.player == init.turn) {
-                        availableMoves = gridCells.availableMoves(cell, init.turn, gridCells)
+                        availableMoves = gridCells.availableMoves(cell, init.turn, gridCells, init)
                         availableMoves.first.forEach { gridCells.setHover(it, cell) }
                         availableMoves.second.forEach { gridCells.setAttack(it, cell) }
                     }
@@ -73,13 +73,13 @@ class TouchHandler {
                 "hover" -> {
                     println(gridCells.cells[cell]!!.first.hoverBy)
                     println(cell)
-                    Move().moveTo(gridCells.cells[cell]!!.first.hoverBy, cell, gridCells)
+                    Move(gridCells, init).moveTo(gridCells.cells[cell]!!.first.hoverBy, cell)
                     gridCells.clearHover()
                 }
                 "attack" -> {
                     println(gridCells.cells[cell]!!.first.hoverBy)
                     println(cell)
-                    Move().attackTo(gridCells.cells[cell]!!.first.hoverBy, cell, gridCells, init)
+                    Move(gridCells, init).attackTo(gridCells.cells[cell]!!.first.hoverBy, cell)
                     gridCells.clearHover()
                 }
             }

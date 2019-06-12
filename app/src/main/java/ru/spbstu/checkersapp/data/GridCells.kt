@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.ImageView
 import ru.spbstu.checkersapp.GameActivity
 import ru.spbstu.checkersapp.R
+import ru.spbstu.checkersapp.logic.Init
 import ru.spbstu.checkersapp.logic.Move
 
 data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
@@ -45,7 +46,7 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         }
     }
 
-    fun availableMoves(cell: String, team: Int, gridCells: GridCells): Pair<List<String>, List<String>> {
+    fun availableMoves(cell: String, team: Int, gridCells: GridCells, init: Init): Pair<List<String>, List<String>> {
         val verticals = Grid().verticalsCheck(cell)
         val hover = mutableListOf<String>()
         val attack = mutableListOf<String>()
@@ -57,8 +58,8 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
             if (cell != current.last()) {
                 if (isEmpty(current[current.indexOf(cell) + 1])) hover.add(current[current.indexOf(cell) + 1])
                 if (!isEmpty(current[current.indexOf(cell) + 1])) {
-                    if (Move().targetCheck(gridCells.cells[cell]!!.second,
-                                    current[current.indexOf(cell) + 1], gridCells) == "busyENEMYgo") {
+                    if (Move(gridCells, init).targetCheck(gridCells.cells[cell]!!.second,
+                                    current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
                         attack.add(current[current.indexOf(cell) + 2])
                     }
                 }
