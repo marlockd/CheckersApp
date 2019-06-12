@@ -33,7 +33,7 @@
             android:translationY="4dp"
             android:fontFamily="@font/gerbera_regular"
             android:textColor="@color/gray_dark"
-            android:text="02:28" />
+            android:text="00:00" />
 
         <TextView
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             android:translationY="4dp"
             android:fontFamily="@font/gerbera_regular"
             android:textColor="@color/gray_dark"
-            android:text="f5:b4" />
+            android:text="00:00" />
 
         <TextView
             android:layout_width="match_parent"

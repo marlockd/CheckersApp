@@ -36,10 +36,13 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-//      init.setNames()
+        init.setNames(intent)
 
         tb_label.text = init.firstPlayer
         tb_label_hidden.text = init.secondPlayer
+
+        counter_score_player1.text = init.scoreFirst.toString()
+        counter_score_player2.text = init.scoreSecond.toString()
 
         /** Setting actual toolbar and counter labels */
         tb_action.text = getString(R.string.playing_now).toString()
