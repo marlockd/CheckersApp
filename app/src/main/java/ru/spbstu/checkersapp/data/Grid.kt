@@ -74,7 +74,7 @@ class Grid {
     7.     EPSILON     ->  { (h2; g3; f4; e5; d6; c7; b8), (g1; f2; e3; d4; c5; b6; a7) }
      */
 
-    val verticals = mapOf(
+    private val verticals = mapOf(
             "OMEGA" to Pair(listOf("a7", "b8"),
                     listOf("g1", "h2")),
             "GAMMA" to Pair(listOf("a5", "b6", "c7", "d8"),

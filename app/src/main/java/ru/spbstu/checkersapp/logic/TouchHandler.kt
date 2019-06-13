@@ -4,85 +4,63 @@ import android.view.MotionEvent
 import ru.spbstu.checkersapp.data.Grid
 import ru.spbstu.checkersapp.data.GridCells
 
-class TouchHandler(var gridCells: GridCells, var init: Init) {
-
-
+class TouchHandler(var gridCells: GridCells, var init: Init, var env: Env) {
 
     fun handleTouch(m: MotionEvent, octa: Int): String {
-        val pointerCount = m.pointerCount
-
-        for (i in 0 until pointerCount)
-        {
-            val x = m.getX(i)
-            val y = m.getY(i)
-            val id = m.getPointerId(i)
-            val action = m.actionMasked
-            val actionIndex = m.actionIndex
-            var actionString: String
-            var grid = ""
-
-            when (x.toInt())
-            {
-                in 0..octa -> grid = "a"
-                in octa..(octa * 2) -> grid = "b"
-                in (octa * 2)..(octa * 3) -> grid = "c"
-                in (octa * 3)..(octa * 4) -> grid = "d"
-                in (octa * 4)..(octa * 5) -> grid = "e"
-                in (octa * 5)..(octa * 6) -> grid = "f"
-                in (octa * 6)..(octa * 7) -> grid = "g"
-                in (octa * 7)..(octa * 8) -> grid = "h"
-                else -> grid = "null"
+            val column = when (m.getY(0).toInt()) {
+                in 0..octa -> 8
+                in octa..(octa * 2) -> 7
+                in (octa * 2)..(octa * 3) -> 6
+                in (octa * 3)..(octa * 4) -> 5
+                in (octa * 4)..(octa * 5) -> 4
+                in (octa * 5)..(octa * 6) -> 3
+                in (octa * 6)..(octa * 7) -> 2
+                in (octa * 7)..(octa * 8) -> 1
+                else -> 0
             }
-
-            var column = 0
-
-            when (y.toInt())
-            {
-                in 0..octa -> column = 8
-                in octa..(octa * 2) -> column = 7
-                in (octa * 2)..(octa * 3) -> column = 6
-                in (octa * 3)..(octa * 4) -> column = 5
-                in (octa * 4)..(octa * 5) -> column = 4
-                in (octa * 5)..(octa * 6) -> column = 3
-                in (octa * 6)..(octa * 7) -> column = 2
-                in (octa * 7)..(octa * 8) -> column = 1
-                else -> column = 1
+            val grid = when (m.getX(0).toInt()) {
+                in 0..octa -> "a"
+                in octa..(octa * 2) -> "b"
+                in (octa * 2)..(octa * 3) -> "c"
+                in (octa * 3)..(octa * 4) -> "d"
+                in (octa * 4)..(octa * 5) -> "e"
+                in (octa * 5)..(octa * 6) -> "f"
+                in (octa * 6)..(octa * 7) -> "g"
+                in (octa * 7)..(octa * 8) -> "h"
+                else -> "null"
             }
-
-            if (id == 0 && action == MotionEvent.ACTION_DOWN) {
-                return listOf(grid, column.toString()).joinToString("")
-            }
-            else
-                return "ERR"
-        }
-        throw IllegalStateException()
+            return if (m.actionMasked == MotionEvent.ACTION_DOWN) {
+                listOf(grid, column.toString()).joinToString("")
+            } else "ERR"
     }
 
     fun touchActivityHover(cell: String) {
-        val availableMoves: Pair<List<String>, List<String>>
         if (cell in Grid().gameCells) {
+            val availableMoves: Pair<List<String>, List<String>>
             val state = gridCells.cells[cell]!!.first.state
             when (state) {
-                "default" -> {
-                    if (!gridCells.isEmpty(cell) && gridCells.cells[cell]!!.second.player == init.turn) {
-                        availableMoves = gridCells.availableMoves(cell, init.turn, gridCells, init)
-                        availableMoves.first.forEach { gridCells.setHover(it, cell) }
-                        availableMoves.second.forEach { gridCells.setAttack(it, cell) }
+                    "default" -> {
+                        if (!gridCells.isEmpty(cell) && gridCells.cells[cell]!!.second.player == init.turn) {
+                            availableMoves = gridCells.availableMoves(cell, init.turn, gridCells, init, env)
+                            gridCells.clearHover()
+                            availableMoves.first.forEach { gridCells.setHover(it, cell) }
+                            availableMoves.second.forEach { gridCells.setAttack(it, cell) }
+                        }
+                    }
+                    "hover" -> {
+                        init.movesList.add(Pair(gridCells.cells[cell]!!.second.player, buildString {
+                            append(gridCells.cells[cell]!!.first.hoverBy).append('-').append(cell) }))
+                        Move(gridCells, init, env).moveTo(gridCells.cells[cell]!!.first.hoverBy, cell)
+                        gridCells.clearHover()
+                    }
+                    "attack" -> {
+                        init.movesList.add(Pair(gridCells.cells[cell]!!.second.player, buildString {
+                            append(gridCells.cells[cell]!!.first.hoverBy).append(':').append(cell) }))
+                        Move(gridCells, init, env).attackTo(gridCells.cells[cell]!!.first.hoverBy, cell)
+                        init.addPoint(gridCells.cells[cell]!!.second.player, env)
+                        gridCells.clearHover()
                     }
                 }
-                "hover" -> {
-                    println(gridCells.cells[cell]!!.first.hoverBy)
-                    println(cell)
-                    Move(gridCells, init).moveTo(gridCells.cells[cell]!!.first.hoverBy, cell)
-                    gridCells.clearHover()
-                }
-                "attack" -> {
-                    println(gridCells.cells[cell]!!.first.hoverBy)
-                    println(cell)
-                    Move(gridCells, init).attackTo(gridCells.cells[cell]!!.first.hoverBy, cell)
-                    gridCells.clearHover()
-                }
-            }
         }
     }
 

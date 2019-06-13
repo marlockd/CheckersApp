@@ -1,26 +1,12 @@
 package ru.spbstu.checkersapp.data
 
-import android.content.Context
-import android.widget.ImageView
-import ru.spbstu.checkersapp.GameActivity
+import android.widget.FrameLayout
 import ru.spbstu.checkersapp.R
+import ru.spbstu.checkersapp.logic.Env
 import ru.spbstu.checkersapp.logic.Init
 import ru.spbstu.checkersapp.logic.Move
 
 data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
-
-    fun init(context: Context) {
-        for (i in 0 until Grid().gameCells.size) when (i) {
-            in 0..11 -> cells[Grid().gameCells[i]] = Pair(Cell(GameActivity().cellById(Grid().gameCells[i]), "default", "00"), Figure(2,
-                    false, Grid().gameCells[i], ImageView(context)).setID().setState(Pair("default", 2)))
-
-            in 12..19 -> cells[Grid().gameCells[i]] = Pair(Cell(GameActivity().cellById(Grid().gameCells[i]), "default", "00"), Figure(0,
-                    false, Grid().gameCells[i], ImageView(context)).setID().setState(Pair("invisible", 0)))
-
-            in 20..31 -> cells[Grid().gameCells[i]] = Pair(Cell(GameActivity().cellById(Grid().gameCells[i]), "default", "00"), Figure(1,
-                    false, Grid().gameCells[i], ImageView(context)).setID().setState(Pair("default", 1)))
-        }
-    }
 
     fun initTable() = cells.forEach { it.value.first.frame.addView(it.value.second.view) }
 
@@ -28,11 +14,29 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         if (cell !in Grid().gameCells) throw IllegalArgumentException("$cell")
         return cells[cell]!!.second.player == 0
     }
-
-    // only when cell is not empty
+    fun getFrame(cell: String): FrameLayout {
+        if (cell !in Grid().gameCells) throw IllegalArgumentException()
+        return cells[cell]!!.first.frame
+    }
+    fun hoverBy(cell: String): String {
+        if (cell !in Grid().gameCells) throw IllegalArgumentException()
+        return cells[cell]!!.first.hoverBy
+    }
+    fun getFigure(cell: String): Figure {
+        if (cell !in Grid().gameCells) throw IllegalArgumentException()
+        return cells[cell]!!.second
+    }
     fun getTeam(cell: String): Int {
         if (cell !in Grid().gameCells) throw IllegalArgumentException()
         return cells[cell]!!.second.player
+    }
+    fun getCell(cell: String): String {
+        if (cell !in Grid().gameCells) throw IllegalArgumentException()
+        return cells[cell]!!.second.cell
+    }
+    fun isQueen(cell: String): Boolean {
+        if (cell !in Grid().gameCells) throw IllegalArgumentException()
+        return cells[cell]!!.second.isQueen
     }
 
     fun setBg(cell: String, state: String) {
@@ -46,19 +50,32 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         }
     }
 
-    fun availableMoves(cell: String, team: Int, gridCells: GridCells, init: Init): Pair<List<String>, List<String>> {
+    fun availableMoves(cell: String, team: Int, gridCells: GridCells, init: Init, env: Env): Pair<List<String>, List<String>> {
         val verticals = Grid().verticalsCheck(cell)
         val hover = mutableListOf<String>()
         val attack = mutableListOf<String>()
         var current : List<String>
 
+
         verticals.forEach {
             current = Grid().getVerticalByName(it.first, it.second)
-            if (team == 2) current = current.reversed()
             if (cell != current.last()) {
                 if (isEmpty(current[current.indexOf(cell) + 1])) hover.add(current[current.indexOf(cell) + 1])
                 if (!isEmpty(current[current.indexOf(cell) + 1])) {
-                    if (Move(gridCells, init).targetCheck(gridCells.cells[cell]!!.second,
+                    if (Move(gridCells, init, env).targetCheck(gridCells.cells[cell]!!.second,
+                                    current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
+                        attack.add(current[current.indexOf(cell) + 2])
+                    }
+                }
+            }
+        }
+
+        verticals.forEach {
+            current = Grid().getVerticalByName(it.first, it.second).reversed()
+            if (cell != current.last()) {
+                if (isEmpty(current[current.indexOf(cell) + 1])) hover.add(current[current.indexOf(cell) + 1])
+                if (!isEmpty(current[current.indexOf(cell) + 1])) {
+                    if (Move(gridCells, init, env).targetCheck(gridCells.cells[cell]!!.second,
                                     current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
                         attack.add(current[current.indexOf(cell) + 2])
                     }
