@@ -35,7 +35,7 @@ class GameActivity : AppCompatActivity() {
         tb_action_hidden, game_counter_first, counter_top_time, counter_top_moves, counter_top_moves_count,
         game_counter_second, counter_score_player1, counter_score_player2, game_grid, resources.displayMetrics)
 
-        env.initAll(init, getString(R.string.playing_now))
+        env.initAll(init, intent, getString(R.string.playing_now))
 
     for (i in 0 until Grid().gameCells.size) when (i) {
         in 0..11 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"),

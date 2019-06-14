@@ -1,5 +1,6 @@
 package ru.spbstu.checkersapp.logic
 
+import android.content.Intent
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.Toolbar
 import android.util.DisplayMetrics
@@ -30,13 +31,14 @@ data class Env(val toolbar: Toolbar, val tbPlayer1: TextView, val tbPlayer2: Tex
 
     fun updateMoves(init: Init) {
         counterMoves.text = init.movesList.last().second
-        movesCount.text = buildString { append(init.movesList.size).append(" ").append("moves") }
+        counterTime.text = init.movesList.size.toString()
     }
 
-    fun initAll(init: Init, actual: String) {
+    fun initAll(init: Init, intent: Intent, actual: String) {
         setWidth(normalWidth(0.04))
         tbAction1.text = actual
         tbVersus.visibility = View.VISIBLE
+        init.setNames(intent)
         tbPlayer1.text = init.firstPlayer
         tbPlayer2.text = init.secondPlayer
         updateScores(init)

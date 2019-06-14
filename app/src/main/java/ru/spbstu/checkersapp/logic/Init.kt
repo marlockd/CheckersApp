@@ -25,6 +25,10 @@ data class Init(var turn: Int, var firstPlayer: String, var secondPlayer: String
         env.scoreSecond.text = scoreSecond.toString()
     }
 
-
+    fun isEnd(): Int = when {
+            scoreFirst == 12 -> 1
+            scoreSecond == 12 -> 2
+            else -> 0
+        }
 
 }

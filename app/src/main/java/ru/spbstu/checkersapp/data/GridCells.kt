@@ -14,29 +14,9 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         if (cell !in Grid().gameCells) throw IllegalArgumentException("$cell")
         return cells[cell]!!.second.player == 0
     }
-    fun getFrame(cell: String): FrameLayout {
-        if (cell !in Grid().gameCells) throw IllegalArgumentException()
-        return cells[cell]!!.first.frame
-    }
-    fun hoverBy(cell: String): String {
-        if (cell !in Grid().gameCells) throw IllegalArgumentException()
-        return cells[cell]!!.first.hoverBy
-    }
-    fun getFigure(cell: String): Figure {
-        if (cell !in Grid().gameCells) throw IllegalArgumentException()
-        return cells[cell]!!.second
-    }
     fun getTeam(cell: String): Int {
         if (cell !in Grid().gameCells) throw IllegalArgumentException()
         return cells[cell]!!.second.player
-    }
-    fun getCell(cell: String): String {
-        if (cell !in Grid().gameCells) throw IllegalArgumentException()
-        return cells[cell]!!.second.cell
-    }
-    fun isQueen(cell: String): Boolean {
-        if (cell !in Grid().gameCells) throw IllegalArgumentException()
-        return cells[cell]!!.second.isQueen
     }
 
     fun setBg(cell: String, state: String) {
@@ -56,26 +36,26 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         val attack = mutableListOf<String>()
         var current : List<String>
 
-
         verticals.forEach {
             current = Grid().getVerticalByName(it.first, it.second)
+            if (getTeam(cell) == 2) current = current.reversed()
             if (cell != current.last()) {
                 if (isEmpty(current[current.indexOf(cell) + 1])) hover.add(current[current.indexOf(cell) + 1])
                 if (!isEmpty(current[current.indexOf(cell) + 1])) {
-                    if (Move(gridCells, init, env).targetCheck(gridCells.cells[cell]!!.second,
+                    if (Move(gridCells, init, env).targetCheck(cell,
                                     current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
                         attack.add(current[current.indexOf(cell) + 2])
                     }
                 }
             }
         }
-
         verticals.forEach {
-            current = Grid().getVerticalByName(it.first, it.second).reversed()
+            current = Grid().getVerticalByName(it.first, it.second)
+            if (getTeam(cell) == 1) current = current.reversed()
             if (cell != current.last()) {
-                if (isEmpty(current[current.indexOf(cell) + 1])) hover.add(current[current.indexOf(cell) + 1])
+
                 if (!isEmpty(current[current.indexOf(cell) + 1])) {
-                    if (Move(gridCells, init, env).targetCheck(gridCells.cells[cell]!!.second,
+                    if (Move(gridCells, init, env).targetCheck(cell,
                                     current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
                         attack.add(current[current.indexOf(cell) + 2])
                     }

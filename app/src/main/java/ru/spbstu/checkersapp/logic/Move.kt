@@ -17,9 +17,6 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
         return false
     }
 
-    fun turnCheck(cell: String): Boolean = (init.turn == gridCells.cells[cell]!!.second.player)
-
-
     /** STATES LIST:
      *  "emptyMOVE"    -> figure can move to this cell
      *  "emptyQUEEN"   -> figure is empty and ready to upgrade figure to Queen
@@ -32,7 +29,9 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
      *  "noneSELF"     -> cell target is the same cell as figure
      */
 
-    fun targetCheck(figure: Figure, target: String): String {
+    fun targetCheck(cell: String, target: String): String {
+        if (cell !in Grid().gameCells) throw IllegalStateException()
+        val figure = gridCells.cells[cell]!!.second
         var verticle = listOf<String>()
 
         if (!isTargetCorrect(figure, target)) return "undefCANT"
@@ -54,7 +53,6 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
 
         val cellIndex = verticle.indexOf(figure.cell)
         val targetIndex = verticle.indexOf(target)
-
 
         if (targetIndex.minus(cellIndex) == 1) {
             if (!gridCells.isEmpty(target)) {
@@ -112,14 +110,14 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
 
     fun moveTo(cell: String, target: String) {
         when {
-            targetCheck(gridCells.cells[cell]!!.second, target) == "emptyMOVE" ->
+            targetCheck(cell, target) == "emptyMOVE" ->
                 gridCells.cells[target]!!.second.setState(gridCells.cells[cell]!!.second.getState())
 
-            targetCheck(gridCells.cells[cell]!!.second, target) == "emptyQUEEN" ->
+            targetCheck(cell, target) == "emptyQUEEN" ->
                 gridCells.cells[target]!!.second.setState(Pair("queen", gridCells.cells[cell]!!.second.getState().second))
 
             else ->
-                println("Move is restricted by rules. Response state: ${targetCheck(gridCells.cells[cell]!!.second, target)}")
+                println("Move is restricted by rules. Response state: ${targetCheck(cell, target)}")
         }
         gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
         isQueen(cell)
@@ -143,13 +141,13 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
         if (rowSubtract < 0 ) verticle = verticle.reversed()
 
         val cellIndex = verticle.indexOf(cell)
-        val targetIndex = verticle.indexOf(target)
-        val enemy = verticle[targetIndex - cellIndex]
+        val enemy = verticle[cellIndex + 1]
 
         gridCells.cells[target]!!.second.setState(gridCells.cells[cell]!!.second.getState())
         gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
         gridCells.cells[gridCells.cells[enemy]!!.second.cell]!!.second.setState(Pair("invisible", 0))
         isQueen(cell)
+        env.updateMoves(init)
         init.changeTurn(env)
     }
 

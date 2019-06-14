@@ -33,7 +33,7 @@
             android:translationY="4dp"
             android:fontFamily="@font/gerbera_regular"
             android:textColor="@color/gray_dark"
-            android:text="00:00" />
+            android:text="0" />
 
         <TextView
             android:id="@+id/counter_top_moves_count"
