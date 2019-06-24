@@ -122,7 +122,7 @@ class Grid {
         }
     }
 
-    private fun verticalCheck(vertical: List<String>): Boolean {
+    fun verticalCheck(vertical: List<String>): Boolean {
         verticals.values.forEach { if (vertical == it.first || vertical == it.second) return true }
         return false
     }

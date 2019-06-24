@@ -1,6 +1,5 @@
 package ru.spbstu.checkersapp.data
 
-import android.widget.FrameLayout
 import ru.spbstu.checkersapp.R
 import ru.spbstu.checkersapp.logic.Env
 import ru.spbstu.checkersapp.logic.Init
@@ -19,45 +18,61 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         return cells[cell]!!.second.player
     }
 
-    fun setBg(cell: String, state: String) {
-        if (cell !in Grid().gameCells
-                || state !in setOf("hover", "attack", "default")) throw IllegalArgumentException()
-        when (state)
-        {
-            "hover" -> cells[cell]!!.first.frame.setBackgroundResource(R.color.rc_grid_square_move)
-            "attack" -> cells[cell]!!.first.frame.setBackgroundResource(R.color.rc_grid_square_attack)
-            "default" -> cells[cell]!!.first.frame.setBackgroundResource(R.color.rc_grid_square)
-        }
-    }
-
-    fun availableMoves(cell: String, team: Int, gridCells: GridCells, init: Init, env: Env): Pair<List<String>, List<String>> {
+    fun availableMoves(cell: String, gridCells: GridCells, init: Init, env: Env): Pair<List<String>, List<String>> {
         val verticals = Grid().verticalsCheck(cell)
         val hover = mutableListOf<String>()
         val attack = mutableListOf<String>()
         var current : List<String>
 
-        verticals.forEach {
-            current = Grid().getVerticalByName(it.first, it.second)
-            if (getTeam(cell) == 2) current = current.reversed()
-            if (cell != current.last()) {
-                if (isEmpty(current[current.indexOf(cell) + 1])) hover.add(current[current.indexOf(cell) + 1])
-                if (!isEmpty(current[current.indexOf(cell) + 1])) {
-                    if (Move(gridCells, init, env).targetCheck(cell,
-                                    current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
-                        attack.add(current[current.indexOf(cell) + 2])
+        if (!gridCells.cells[cell]!!.second.isQueen) {
+            verticals.forEach {
+                current = Grid().getVerticalByName(it.first, it.second)
+                if (getTeam(cell) == 2) current = current.reversed()
+                if (cell != current.last()) {
+                    if (isEmpty(current[current.indexOf(cell) + 1])) hover.add(current[current.indexOf(cell) + 1])
+                    if (!isEmpty(current[current.indexOf(cell) + 1])) {
+                        if (Move(gridCells, init, env).targetCheck(cell,
+                                        current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
+                            attack.add(current[current.indexOf(cell) + 2])
+                        }
                     }
                 }
             }
-        }
-        verticals.forEach {
-            current = Grid().getVerticalByName(it.first, it.second)
-            if (getTeam(cell) == 1) current = current.reversed()
-            if (cell != current.last()) {
+            verticals.forEach {
+                current = Grid().getVerticalByName(it.first, it.second)
+                if (getTeam(cell) == 1) current = current.reversed()
+                if (cell != current.last()) {
 
-                if (!isEmpty(current[current.indexOf(cell) + 1])) {
-                    if (Move(gridCells, init, env).targetCheck(cell,
-                                    current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
-                        attack.add(current[current.indexOf(cell) + 2])
+                    if (!isEmpty(current[current.indexOf(cell) + 1])) {
+                        if (Move(gridCells, init, env).targetCheck(cell,
+                                        current[current.indexOf(cell) + 1]) == "busyENEMYgo") {
+                            attack.add(current[current.indexOf(cell) + 2])
+                        }
+                    }
+                }
+            }
+        } else if (gridCells.cells[cell]!!.second.isQueen) {
+            verticals.forEach {
+                current = Grid().getVerticalByName(it.first, it.second)
+                val cellIndex = current.indexOf(cell)
+                if (cell == current.last()) {
+                    for (target in cellIndex + 1 until 0) {
+                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
+                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
+                    }
+                } else if (cell == current.first()) {
+                    for (target in 1 until cellIndex) {
+                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
+                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
+                    }
+                } else {
+                    for (target in cellIndex until 0) {
+                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
+                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
+                    }
+                    for (target in cellIndex until current.size) {
+                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
+                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
                     }
                 }
             }
@@ -83,16 +98,6 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
             it.value.first.hoverBy = "00"
             it.value.first.frame.setBackgroundResource(R.color.rc_grid_square)
         }
-    }
-
-    fun cleanCell(cell: String) {
-        if (cell !in Grid().gameCells) throw IllegalArgumentException()
-        cells[cell]!!.first.frame.removeAllViews()
-    }
-
-    fun appendCell(cell: String, figure: Figure) {
-        if (cell !in Grid().gameCells) throw IllegalArgumentException()
-        cells[cell]!!.first.frame.addView(figure.view)
     }
 
 }

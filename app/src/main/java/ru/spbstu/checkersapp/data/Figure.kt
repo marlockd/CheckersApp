@@ -35,7 +35,7 @@ data class Figure(var player: Int, var isQueen: Boolean, var cell: String, var v
                 }
             }
             "queen" -> {
-                isQueen
+                isQueen = true
                 view.visibility = View.VISIBLE
                 if (state.second == 1) {
                     player = 1

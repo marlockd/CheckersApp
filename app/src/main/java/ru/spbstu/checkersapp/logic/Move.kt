@@ -6,15 +6,22 @@ import ru.spbstu.checkersapp.data.GridCells
 
 class Move(var gridCells: GridCells, var init: Init, var env: Env) {
 
-
     fun isTargetCorrect(figure: Figure, target: String): Boolean {
-        if (target !in Grid().gameCells) throw IllegalStateException()
+        if (target !in Grid().gameCells) throw IllegalStateException("Class - Move: isTargetCorrect error")
         val verticals = Grid().verticalsCheck(figure.cell)
         if (figure.cell == "a1" || figure.cell == "h8")
             return Grid().getVerticalByName("ALPHA", 1).contains("target")
         if (Grid().getVerticalByName(verticals.first().first, verticals.first().second).contains(target)) return true
         if (Grid().getVerticalByName(verticals.last().first, verticals.last().second).contains(target)) return true
         return false
+    }
+
+    fun isEmptyInRange(start: Int, end: Int, vertical: List<String>): Boolean {
+        //if (!Grid().verticalCheck(vertical)) throw IllegalArgumentException("Class - Move: isEmptyInRange error \n" +
+        //        "vertical is not defined!")
+        if (start !in 0..vertical.size || end !in 0..vertical.size) return false
+        for (i in start until end) if (gridCells.isEmpty(vertical[i])) return false
+        return true
     }
 
     /** STATES LIST:
@@ -49,78 +56,60 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
             verticle = Grid().getVerticalByName(verticals.last().first, verticals.last().second)
         if (verticle.isNullOrEmpty()) throw IllegalArgumentException()
 
-        if (figure.player == 2) verticle = verticle.asReversed()
+        val rowSubtract = target.takeLast(1).toInt() - cell.takeLast(1).toInt()
+        if (rowSubtract < 0 ) verticle = verticle.reversed()
 
         val cellIndex = verticle.indexOf(figure.cell)
         val targetIndex = verticle.indexOf(target)
 
-        if (targetIndex.minus(cellIndex) == 1) {
-            if (!gridCells.isEmpty(target)) {
-                if (gridCells.getTeam(target) == figure.player) return "busyALLY"
-                if (gridCells.getTeam(target) != figure.player &&
-                        gridCells.getTeam(target) != 0) {
+        if (!figure.isQueen) {
+            if (targetIndex.minus(cellIndex) == 1) {
+                if (!gridCells.isEmpty(target)) {
+                    if (gridCells.getTeam(target) == figure.player) return "busyALLY"
+                    if (gridCells.getTeam(target) != figure.player &&
+                            gridCells.getTeam(target) != 0) {
 
-                    if (((targetIndex + 1) in 0..(verticle.size - 1)) && gridCells.isEmpty(verticle[targetIndex + 1])) {
+                        if (((targetIndex + 1) in 0..(verticle.size - 1)) && gridCells.isEmpty(verticle[targetIndex + 1])) {
 
-                        if ((verticle[targetIndex + 1][1].toInt() == 8 && figure.player == 1) ||
-                                (verticle[targetIndex + 1][1].toInt() == 1 && figure.player == 2))
-                            return "busyENEMYqn"
-                        else return "busyENEMYgo"
-                    }
-                } else return "busyENEMY"
-            } else return "emptyMOVE"
-        } else if (cellIndex.minus(targetIndex) == 1) {
-            if (!gridCells.isEmpty(target)) {
-                if (gridCells.getTeam(target) == figure.player) return "busyALLY"
-                if (gridCells.getTeam(target) != figure.player &&
-                        gridCells.getTeam(target) != 0) {
-                    if (!verticle[targetIndex + 1].isBlank() &&
-                            gridCells.isEmpty(verticle[targetIndex + 1])) return "busyENEMYgo"
-                } else return "busyENEMY"
-            } else if (figure.isQueen) return "emptyMOVE" else return "undefCANT"
-        } else if (cellIndex == targetIndex) return "noneSELF"
-        else return "undefCANT"
+                            if ((verticle[targetIndex + 1][1].toInt() == 8 && figure.player == 1) ||
+                                    (verticle[targetIndex + 1][1].toInt() == 1 && figure.player == 2))
+                                return "busyENEMYqn"
+                            else return "busyENEMYgo"
+                        }
+                    } else return "busyENEMY"
+                } else return "emptyMOVE"
+            } else if (cellIndex.minus(targetIndex) == 1) {
+                if (!gridCells.isEmpty(target)) {
+                    if (gridCells.getTeam(target) == figure.player) return "busyALLY"
+                    if (gridCells.getTeam(target) != figure.player &&
+                            gridCells.getTeam(target) != 0) {
+                        if (!verticle[targetIndex + 1].isBlank() &&
+                                gridCells.isEmpty(verticle[targetIndex + 1])) return "busyENEMYgo"
+                    } else return "busyENEMY"
+                } else if (figure.isQueen) return "emptyMOVE" else return "undefCANT"
+            } else if (cellIndex == targetIndex) return "noneSELF"
+            else return "undefCANT"
+        }
 
         if (figure.isQueen) {
-            if (target in verticle && (target != verticle.last() || target != verticle.first())) {
-                if (targetIndex.minus(cellIndex) > 2 && gridCells.isEmpty(verticle[targetIndex])) {
-                    if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex.minus(cellIndex)),
-                                    verticle, gridCells)) return "emptyMOVE"
-                } else if (targetIndex.minus(cellIndex) > 2 && gridCells.isEmpty(verticle[targetIndex + 1])) {
-                    if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex - cellIndex + 1),
-                                    verticle, gridCells)) return "busyENEMYgo"
-                } else if (cellIndex.minus(targetIndex) > 2 && gridCells.isEmpty(verticle[targetIndex])) {
-                    if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex.minus(cellIndex)),
-                                    verticle, gridCells)) return "emptyMOVE"
-                } else if (cellIndex.minus(targetIndex) > 2 && gridCells.isEmpty(verticle[targetIndex - 1])) {
-                    if (Grid().isEmptyInRange(cellIndex + 1, cellIndex + (targetIndex - cellIndex + 1),
-                                    verticle, gridCells)) return "busyENEMYgo"
-                } else if (target in verticle && (target == verticle.last() || target == verticle.first()))
-                    return "undefCANT"
-            } else return "undefCANT"
+
         }
         return "ERROR"
     }
 
-    fun isQueen(cell: String) {
-        val team = gridCells.cells[cell]!!.second.player
-        if  (((team == 1) && (cell.takeLast(1).toInt() == 8)) || ((team == 2) && (cell.takeLast(1).toInt() == 1)))
-            gridCells.cells[cell]!!.second.setState(Pair("queen", team))
-    }
-
     fun moveTo(cell: String, target: String) {
         when {
-            targetCheck(cell, target) == "emptyMOVE" ->
+            targetCheck(cell, target) == "emptyMOVE" -> {
+                val team = gridCells.getTeam(cell)
                 gridCells.cells[target]!!.second.setState(gridCells.cells[cell]!!.second.getState())
-
-            targetCheck(cell, target) == "emptyQUEEN" ->
-                gridCells.cells[target]!!.second.setState(Pair("queen", gridCells.cells[cell]!!.second.getState().second))
+                if (team == 1 && (target[1] == '8')) gridCells.cells[target]!!.second.setState(Pair("queen", team))
+                else if (team == 2 && (target[1] == '1')) gridCells.cells[target]!!.second.setState(Pair("queen", team))
+            }
 
             else ->
                 println("Move is restricted by rules. Response state: ${targetCheck(cell, target)}")
         }
         gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
-        isQueen(cell)
         env.updateMoves(init)
         init.changeTurn(env)
     }
@@ -143,12 +132,18 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
         val cellIndex = verticle.indexOf(cell)
         val enemy = verticle[cellIndex + 1]
 
+        val team = gridCells.getTeam(cell)
+
         gridCells.cells[target]!!.second.setState(gridCells.cells[cell]!!.second.getState())
+
         gridCells.cells[gridCells.cells[cell]!!.second.cell]!!.second.setState(Pair("invisible", 0))
         gridCells.cells[gridCells.cells[enemy]!!.second.cell]!!.second.setState(Pair("invisible", 0))
-        isQueen(cell)
+        if (team == 1 && (target[1] == '8')) gridCells.cells[target]!!.second.setState(Pair("queen", team))
+        else if (team == 2 && (target[1] == '1')) gridCells.cells[target]!!.second.setState(Pair("queen", team))
         env.updateMoves(init)
-        init.changeTurn(env)
+        val extraAttack = gridCells.availableMoves(target, gridCells, init, env)
+        if (extraAttack.second.isEmpty()) init.changeTurn(env)
+        else extraAttack.second.forEach { gridCells.setAttack(it, target) }
     }
 
 }
