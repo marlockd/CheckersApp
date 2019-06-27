@@ -38,8 +38,6 @@ class TouchHandler(var gridCells: GridCells, var init: Init, var env: Env) {
         if (cell in Grid().gameCells) {
             val availableMoves: Pair<List<String>, List<String>>
             val state = gridCells.cells[cell]!!.first.state
-            val state2 = gridCells.cells[cell]!!.second.getState()
-            println(state2)
             when (state) {
                 "default" -> {
                     if (!gridCells.isEmpty(cell) && gridCells.cells[cell]!!.second.player == init.turn) {

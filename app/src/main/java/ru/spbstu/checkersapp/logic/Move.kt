@@ -53,7 +53,6 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
         val targetIndex = verticle.indexOf(target)
 
         if (!figure.isQueen) {
-            println("not queen")
             if (targetIndex.minus(cellIndex) == 1) {
                 if (!gridCells.isEmpty(target)) {
                     if (gridCells.getTeam(target) == figure.player) return "busyALLY"
@@ -81,7 +80,6 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
             } else if (cellIndex == targetIndex) return "noneSELF"
             else return "undefCANT"
         } else if (figure.isQueen) {
-            println("is queen")
             if (targetIndex.minus(cellIndex) == 1 || cellIndex.minus(targetIndex) == 1) {
                 if (gridCells.isEmpty(target)) return "emptyMOVE"
                 else if (!gridCells.isEmpty(target)) {
