@@ -70,11 +70,13 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
                     }
                 } else {
-                    for (target in cellIndex until 0) {
+                    target = cellIndex - 1
+                    while (target >= 0) {
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
+                        target--
                     }
-                    for (target in cellIndex until current.size - 1) {
+                    for (target in cellIndex + 1 until current.size - 1) {
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
                     }

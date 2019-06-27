@@ -52,6 +52,8 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
         val cellIndex = verticle.indexOf(figure.cell)
         val targetIndex = verticle.indexOf(target)
 
+        println(verticle)
+
         if (!figure.isQueen) {
             if (targetIndex.minus(cellIndex) == 1) {
                 if (!gridCells.isEmpty(target)) {
@@ -79,7 +81,9 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
                 } else if (figure.isQueen) return "emptyMOVE" else return "undefCANT"
             } else if (cellIndex == targetIndex) return "noneSELF"
             else return "undefCANT"
+
         } else if (figure.isQueen) {
+
             if (targetIndex.minus(cellIndex) == 1 || cellIndex.minus(targetIndex) == 1) {
                 if (gridCells.isEmpty(target)) return "emptyMOVE"
                 else if (!gridCells.isEmpty(target)) {
@@ -95,6 +99,7 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
                             gridCells.isEmpty(verticle[targetIndex + 1])) return "busyENEMYgo"
                 }
             } else if (cellIndex == targetIndex) return "noneSELF"
+
         }
         return "ERROR"
     }
