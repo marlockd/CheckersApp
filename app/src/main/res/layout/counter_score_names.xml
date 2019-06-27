@@ -4,30 +4,30 @@
     android:id="@+id/game_counter_second"
     android:layout_width="390dp"
     android:layout_height="74dp"
-    android:orientation="horizontal"
+    android:background="@drawable/game_counter"
     android:gravity="center_vertical"
-    app:layout_constraintStart_toStartOf="parent"
+    android:orientation="horizontal"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/game_counter_first"
-    android:background="@drawable/game_counter" >
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/game_counter_first">
 
 
     <!-- PLAYER 1 SCORE  -->
     <LinearLayout
         android:id="@+id/counter_score_layout1"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
-        android:gravity="center_vertical"
         android:layout_weight="4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/score_counter_info" >
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/score_counter_info"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="14dp"
             android:layout_width="44dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="14dp"
             android:contentDescription="@string/todo"
             app:srcCompat="@drawable/rc_figure_blue" />
 
@@ -35,13 +35,13 @@
             android:id="@+id/counter_score_player1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_marginStart="10dp"
-            android:textSize="14pt"
+            android:layout_marginTop="1pt"
             android:fontFamily="@font/gerbera_light"
-            android:textColor="@color/gray_medium"
+            android:gravity="center_vertical"
             android:text="@string/ten"
-            android:layout_marginTop="1pt" />
+            android:textColor="@color/gray_medium"
+            android:textSize="14pt" />
 
     </LinearLayout>
 
@@ -54,51 +54,50 @@
         android:layout_weight="6"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="4dp"
-            android:textSize="20sp"
             android:fontFamily="@font/gerbera_light"
-            android:textColor="@color/rc_blue"
+            android:gravity="center"
+            android:letterSpacing="0.12"
             android:text="@string/score"
-            android:letterSpacing="0.12" />
+            android:textColor="@color/rc_blue"
+            android:textSize="20sp" />
 
     </LinearLayout>
-
 
 
     <!-- PLAYER 2 SCORE -->
     <LinearLayout
         android:id="@+id/counter_score_layout2"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_weight="4"
         android:gravity="end"
-        app:layout_constraintEnd_toEndOf="@id/score_counter_info" >
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/score_counter_info">
 
         <TextView
             android:id="@+id/counter_score_player2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:layout_marginTop="1pt"
             android:layout_marginEnd="10dp"
-            android:textSize="14pt"
             android:fontFamily="@font/gerbera_light"
-            android:textColor="@color/gray_medium"
+            android:gravity="center_vertical"
             android:text="@string/ten"
-            android:layout_marginTop="1pt" />
+            android:textColor="@color/gray_medium"
+            android:textSize="14pt" />
 
         <ImageView
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="14dp"
             android:layout_width="44dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="14dp"
             android:contentDescription="@string/todo"
             app:srcCompat="@drawable/rc_figure_orange" />
 

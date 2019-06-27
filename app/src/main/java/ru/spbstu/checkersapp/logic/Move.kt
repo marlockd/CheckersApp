@@ -16,14 +16,6 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
         return false
     }
 
-    fun isEmptyInRange(start: Int, end: Int, vertical: List<String>): Boolean {
-        //if (!Grid().verticalCheck(vertical)) throw IllegalArgumentException("Class - Move: isEmptyInRange error \n" +
-        //        "vertical is not defined!")
-        if (start !in 0..vertical.size || end !in 0..vertical.size) return false
-        for (i in start until end) if (gridCells.isEmpty(vertical[i])) return false
-        return true
-    }
-
     /** STATES LIST:
      *  "emptyMOVE"    -> figure can move to this cell
      *  "emptyQUEEN"   -> figure is empty and ready to upgrade figure to Queen
@@ -45,8 +37,6 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
 
         val verticals = Grid().verticalsCheck(figure.cell)
 
-        if (figure.cell == "a1" || figure.cell == "h8") verticle = Grid().getVerticalByName("ALPHA", 1)
-
         if (Grid().getVerticalByName(verticals.first().first, verticals.first().second).contains(target) &&
                 Grid().getVerticalByName(verticals.first().first, verticals.first().second).contains(figure.cell))
             verticle = Grid().getVerticalByName(verticals.first().first, verticals.first().second)
@@ -57,12 +47,13 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
         if (verticle.isNullOrEmpty()) throw IllegalArgumentException()
 
         val rowSubtract = target.takeLast(1).toInt() - cell.takeLast(1).toInt()
-        if (rowSubtract < 0 ) verticle = verticle.reversed()
+        if (rowSubtract < 0) verticle = verticle.reversed()
 
         val cellIndex = verticle.indexOf(figure.cell)
         val targetIndex = verticle.indexOf(target)
 
         if (!figure.isQueen) {
+            println("not queen")
             if (targetIndex.minus(cellIndex) == 1) {
                 if (!gridCells.isEmpty(target)) {
                     if (gridCells.getTeam(target) == figure.player) return "busyALLY"
@@ -71,10 +62,10 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
 
                         if (((targetIndex + 1) in 0..(verticle.size - 1)) && gridCells.isEmpty(verticle[targetIndex + 1])) {
 
-                            if ((verticle[targetIndex + 1][1].toInt() == 8 && figure.player == 1) ||
+                            return if ((verticle[targetIndex + 1][1].toInt() == 8 && figure.player == 1) ||
                                     (verticle[targetIndex + 1][1].toInt() == 1 && figure.player == 2))
-                                return "busyENEMYqn"
-                            else return "busyENEMYgo"
+                                "busyENEMYqn"
+                            else "busyENEMYgo"
                         }
                     } else return "busyENEMY"
                 } else return "emptyMOVE"
@@ -89,10 +80,23 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
                 } else if (figure.isQueen) return "emptyMOVE" else return "undefCANT"
             } else if (cellIndex == targetIndex) return "noneSELF"
             else return "undefCANT"
-        }
-
-        if (figure.isQueen) {
-
+        } else if (figure.isQueen) {
+            println("is queen")
+            if (targetIndex.minus(cellIndex) == 1 || cellIndex.minus(targetIndex) == 1) {
+                if (gridCells.isEmpty(target)) return "emptyMOVE"
+                else if (!gridCells.isEmpty(target)) {
+                    if (gridCells.getTeam(target) == figure.player) return "busyALLY"
+                    if (gridCells.getTeam(target) != figure.player &&
+                            gridCells.isEmpty(verticle[targetIndex + 1])) return "busyENEMYgo"
+                }
+            } else if (targetIndex.minus(cellIndex) > 1 || cellIndex.minus(targetIndex) > 1) {
+                if (gridCells.isEmpty(target)) return "emptyMOVE"
+                else if (!gridCells.isEmpty(target)) {
+                    if (gridCells.getTeam(target) == figure.player) return "busyALLY"
+                    if (gridCells.getTeam(target) != figure.player &&
+                            gridCells.isEmpty(verticle[targetIndex + 1])) return "busyENEMYgo"
+                }
+            } else if (cellIndex == targetIndex) return "noneSELF"
         }
         return "ERROR"
     }
@@ -127,7 +131,7 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
             verticle = Grid().getVerticalByName(verticals.last().first, verticals.last().second)
 
         val rowSubtract = target.takeLast(1).toInt() - cell.takeLast(1).toInt()
-        if (rowSubtract < 0 ) verticle = verticle.reversed()
+        if (rowSubtract < 0) verticle = verticle.reversed()
 
         val cellIndex = verticle.indexOf(cell)
         val enemy = verticle[cellIndex + 1]

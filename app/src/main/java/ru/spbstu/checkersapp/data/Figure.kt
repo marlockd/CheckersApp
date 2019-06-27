@@ -6,7 +6,7 @@ import ru.spbstu.checkersapp.R
 
 data class Figure(var player: Int, var isQueen: Boolean, var cell: String, var view: ImageView) {
 
-    fun setID():Figure {
+    fun setID(): Figure {
         view.id = View.generateViewId()
         return Figure(player, isQueen, cell, view)
     }
@@ -21,15 +21,14 @@ data class Figure(var player: Int, var isQueen: Boolean, var cell: String, var v
 
     fun setState(state: Pair<String, Int>): Figure {
         if (state.first !in setOf("default", "queen", "invisible")) throw IllegalArgumentException()
-        when (state.first)
-        {
+        when (state.first) {
             "default" -> {
                 !isQueen
                 view.visibility = View.VISIBLE
                 if (state.second == 1) {
                     player = 1
                     view.setImageResource(R.drawable.rc_figure_blue)
-                } else if (state.second== 2) {
+                } else if (state.second == 2) {
                     player = 2
                     view.setImageResource(R.drawable.rc_figure_orange)
                 }

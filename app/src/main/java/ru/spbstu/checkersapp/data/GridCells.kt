@@ -13,6 +13,7 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         if (cell !in Grid().gameCells) throw IllegalArgumentException("$cell")
         return cells[cell]!!.second.player == 0
     }
+
     fun getTeam(cell: String): Int {
         if (cell !in Grid().gameCells) throw IllegalArgumentException()
         return cells[cell]!!.second.player
@@ -22,7 +23,7 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         val verticals = Grid().verticalsCheck(cell)
         val hover = mutableListOf<String>()
         val attack = mutableListOf<String>()
-        var current : List<String>
+        var current: List<String>
 
         if (!gridCells.cells[cell]!!.second.isQueen) {
             verticals.forEach {
@@ -55,10 +56,13 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
             verticals.forEach {
                 current = Grid().getVerticalByName(it.first, it.second)
                 val cellIndex = current.indexOf(cell)
+                var target = 0
                 if (cell == current.last()) {
-                    for (target in cellIndex + 1 until 0) {
+                    target = current.size - 3
+                    while (target != 0) {
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
+                        target--
                     }
                 } else if (cell == current.first()) {
                     for (target in 1 until cellIndex) {
@@ -70,7 +74,7 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
                     }
-                    for (target in cellIndex until current.size) {
+                    for (target in cellIndex until current.size - 1) {
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
                         if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
                     }

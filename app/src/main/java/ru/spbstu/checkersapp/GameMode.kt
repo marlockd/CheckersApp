@@ -21,7 +21,7 @@ class GameMode : AppCompatActivity() {
         /** Bottom Navigation menu visual config */
         bottom_nav_bar.setIconSize(29f, 29f)
         bottom_nav_bar.setTextVisibility(true)
-        for(i in 0 until bottom_nav_bar.menu.size()) bottom_nav_bar.setIconTintList(i, null)
+        for (i in 0 until bottom_nav_bar.menu.size()) bottom_nav_bar.setIconTintList(i, null)
         bottom_nav_bar.alpha = (0).toFloat()
 
         /** Listener for return-back label */

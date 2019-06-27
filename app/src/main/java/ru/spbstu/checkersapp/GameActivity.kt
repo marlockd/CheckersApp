@@ -21,7 +21,7 @@ class GameActivity : AppCompatActivity() {
 
     // Environment variables
     private val gridCells = GridCells(mutableMapOf())
-    private val init = Init(1, "First",  "Second",
+    private val init = Init(1, "First", "Second",
             false, 0, 0, mutableListOf())
 
     fun cellById(id: String): FrameLayout = findViewById(resources.getIdentifier(
@@ -31,21 +31,23 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-    val env = Env(toolbar_default, tb_label, tb_label_hidden, toolbar_labels_versus, tb_action,
-        tb_action_hidden, game_counter_first, counter_top_time, counter_top_moves, counter_top_moves_count,
-        game_counter_second, counter_score_player1, counter_score_player2, game_grid, resources.displayMetrics)
+        val env = Env(toolbar_default, tb_label, tb_label_hidden, toolbar_labels_versus, tb_action,
+                tb_action_hidden, game_counter_first, counter_top_time, counter_top_moves, counter_top_moves_count,
+                game_counter_second, counter_score_player1, counter_score_player2, game_grid, resources.displayMetrics)
 
         env.initAll(init, intent, getString(R.string.playing_now))
 
-    for (i in 0 until Grid().gameCells.size) when (i) {
-        in 0..11 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"),
-                Figure(2, false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("default", 2)))
-        in 12..19 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"),
-                Figure(0, false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("invisible", 0)))
-        in 20..31 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"),
-                Figure(1, false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("default", 1)))
-    }
+        for (i in 0 until Grid().gameCells.size) when (i) {
+            in 0..11 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"),
+                    Figure(2, false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("default", 2)))
+            in 12..19 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"),
+                    Figure(0, false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("invisible", 0)))
+            in 20..31 -> gridCells.cells[Grid().gameCells[i]] = Pair(Cell(cellById(Grid().gameCells[i]), "default", "00"),
+                    Figure(1, false, Grid().gameCells[i], ImageView(this)).setID().setState(Pair("default", 1)))
+        }
         gridCells.initTable()
+
+        gridCells.cells["c3"]!!.second.setState(Pair("queen", 1))
 
         grid_cells.setOnTouchListener { view, motion ->
             TouchHandler(gridCells, init, env).touchActivityHover(TouchHandler(gridCells, init, env).handleTouch(motion, env.cellWidth))

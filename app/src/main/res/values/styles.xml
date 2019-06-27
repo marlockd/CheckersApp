@@ -34,7 +34,7 @@
         <item name="android:background">@color/rc_grid_square</item>
     </style>
 
-    <style name="markup" >
+    <style name="markup">
         <item name="android:fontFamily">@font/gerbera_light</item>
         <item name="android:textColor">@color/rc_grid_markup</item>
         <item name="android:gravity">center</item>

@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/king_player1"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    app:layout_constraintVertical_bias="0.3"
+    android:orientation="vertical"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent" >
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.3">
 
     <ImageView
         android:id="@+id/player_king_asset"
         android:layout_width="320dp"
         android:layout_height="320dp"
+        android:contentDescription="@string/todo"
         android:src="@drawable/rc_player1_king"
-        android:translationX="-5dp"
-        android:contentDescription="@string/todo" />
+        android:translationX="-5dp" />
 
     <TextView
         android:id="@+id/tv_player_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:alpha="0.8"
         android:fontFamily="@font/gerbera_bold"
+        android:gravity="center"
         android:text="@string/welcome_text_player1"
         android:textColor="@color/gray_dark"
-        android:alpha="0.8"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
         android:textSize="28sp" />
 
 </LinearLayout>

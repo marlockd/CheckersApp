@@ -4,52 +4,53 @@
     android:id="@+id/game_counter_first"
     android:layout_width="390dp"
     android:layout_height="90dp"
-    android:orientation="horizontal"
     android:layout_marginTop="2dp"
+    android:background="@drawable/game_counter"
     android:gravity="center_vertical"
-    app:layout_constraintStart_toStartOf="parent"
+    android:orientation="horizontal"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/toolbar_default"
-    android:background="@drawable/game_counter" >
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/toolbar_default">
 
 
     <!-- TIMER COUNTER LAYOUT  -->
     <LinearLayout
         android:id="@+id/game_counters_layout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="76dp"
-        android:gravity="center"
         android:layout_weight="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/counter_top_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|bottom"
-            android:textSize="32sp"
-            android:translationY="4dp"
             android:fontFamily="@font/gerbera_regular"
+            android:gravity="center|bottom"
+            android:text="0"
             android:textColor="@color/gray_dark"
-            android:text="0" />
+            android:textSize="32sp"
+            android:translationY="4dp" />
 
         <TextView
             android:id="@+id/counter_top_moves_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|top"
             android:layout_gravity="top"
             android:fontFamily="@font/gerbera_light"
-            android:textColor="@color/rc_blue"
-            android:text="@string/moves" />
+            android:gravity="center|top"
+            android:text="@string/moves"
+            android:textColor="@color/rc_blue" />
 
     </LinearLayout>
 
 
     <!-- VERTICAL SEPARATOR  -->
-    <View android:layout_width="1dp"
+    <View
+        android:layout_width="1dp"
         android:layout_height="54dp"
         android:background="@color/gray_disabled" />
 
@@ -59,31 +60,31 @@
         android:id="@+id/game_counters_layout2"
         android:layout_width="match_parent"
         android:layout_height="76dp"
+        android:layout_weight="0.95"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_weight="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/counter_top_moves"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|bottom"
-            android:textSize="32sp"
-            android:translationY="4dp"
             android:fontFamily="@font/gerbera_regular"
+            android:gravity="center|bottom"
+            android:text="00:00"
             android:textColor="@color/gray_dark"
-            android:text="00:00" />
+            android:textSize="32sp"
+            android:translationY="4dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|top"
             android:layout_gravity="top"
             android:fontFamily="@font/gerbera_light"
-            android:textColor="@color/rc_blue"
-            android:text="@string/last_move" />
+            android:gravity="center|top"
+            android:text="@string/last_move"
+            android:textColor="@color/rc_blue" />
 
     </LinearLayout>
 

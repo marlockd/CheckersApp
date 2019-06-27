@@ -33,9 +33,9 @@
         android:id="@+id/textlogo_layer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="0dp"
         android:gravity="start"
         android:orientation="vertical"
+        android:padding="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_giticon">
 
@@ -46,8 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:fontFamily="@font/gerbera_bold"
-            android:paddingBottom="0dp"
             android:paddingTop="1dp"
+            android:paddingBottom="0dp"
             android:text="@string/russianCaps"
             android:textColor="@color/gray_dark"
             android:textSize="28pt" />
@@ -59,10 +59,10 @@
             android:layout_marginStart="28dp"
             android:fontFamily="@font/gerbera_light"
             android:letterSpacing="0.3"
-            android:translationY="-4dp"
             android:text="@string/russianGame"
             android:textColor="@color/gray_dark"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:translationY="-4dp" />
 
     </LinearLayout>
 
@@ -71,13 +71,13 @@
         android:id="@+id/iv_crown"
         android:layout_width="350dp"
         android:layout_height="350dp"
+        android:alpha="0.8"
         android:contentDescription="@string/todo"
         android:translationX="120dp"
-        android:alpha="0.8"
-        app:layout_constraintVertical_bias="0.44"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44"
         app:srcCompat="@drawable/rs_crown" />
 
 
@@ -85,9 +85,9 @@
         android:id="@+id/llv_btndock"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="parent">
@@ -113,24 +113,24 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rc_white_btn"
             android:fontFamily="@font/gerbera_light"
-            android:translationY="-4dp"
             android:letterSpacing="0.12"
             android:text="@string/game_rules"
             android:textAlignment="center"
             android:textColor="@color/grad_blue_end"
-            android:textSize="8pt" />
+            android:textSize="8pt"
+            android:translationY="-4dp" />
 
 
         <TextView
             android:id="@+id/tv_credits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:alpha="0.8"
             android:fontFamily="@font/gerbera_light"
             android:gravity="center"
             android:text="@string/info"
             android:textColor="@color/rc_blue"
             android:textSize="8pt"
-            android:alpha="0.8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

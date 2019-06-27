@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- PNG Box Shadow -->
     <item android:drawable="@drawable/btn_shadow_blue" />
     <item>
         <shape>
             <gradient
                 android:angle="315"
-                android:type="linear"
-                android:startColor="@color/grad_blue_start"
+                android:centerX="10%"
                 android:endColor="@color/grad_blue_end"
-                android:centerX="10%"/>
+                android:startColor="@color/grad_blue_start"
+                android:type="linear" />
             <corners android:radius="18dp" />
         </shape>
     </item>

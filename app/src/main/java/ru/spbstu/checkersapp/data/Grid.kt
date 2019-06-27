@@ -127,13 +127,4 @@ class Grid {
         return false
     }
 
-    fun isEmptyInRange(start: Int, end: Int, vertical: List<String>, gridCells: GridCells): Boolean {
-        if (!verticalCheck(vertical)) throw IllegalArgumentException()
-        if (start !in 0..vertical.size || end !in 0..vertical.size) return false
-        for (i in start until end) if (gridCells.isEmpty(vertical[i])) return false
-        return true
-    }
-
-    // (val player: Int, var isQueen: Boolean, var cell: String, var view: ImageView)
-
 }

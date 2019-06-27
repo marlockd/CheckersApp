@@ -1,38 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-    style="@style/rc_default">
+<android.support.constraint.ConstraintLayout style="@style/rc_default">
 
     <!-- COUNTERS: TOOLBAR -->
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
     <!-- COUNTERS: TIME and MOVES -->
     <include layout="@layout/counter_time_moves" />
 
     <!-- COUNTERS: SCORES and PLAYER NAMES -->
-    <include layout="@layout/counter_score_names"/>
+    <include layout="@layout/counter_score_names" />
 
 
     <!-- GAME RESPONSIBLE GRID -->
     <include layout="@layout/game_grid" />
 
-    <!-- GAME RESPONSIBLE GRID
-    <Button
-        app:layout_constraintTop_toBottomOf="@id/game_grid"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/on_change"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="85"
-        android:background="@drawable/rc_blue_btn"
-        android:fontFamily="@font/gerbera_light"
-        android:letterSpacing="0.12"
-        android:text="@string/next"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="8pt" /> -->
+    <!-- GAME RESPONSIBLE GRID  -->
 
 
 </android.support.constraint.ConstraintLayout>

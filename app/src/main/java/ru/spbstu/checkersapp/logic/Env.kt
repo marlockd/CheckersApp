@@ -9,9 +9,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 
 data class Env(val toolbar: Toolbar, val tbPlayer1: TextView, val tbPlayer2: TextView, val tbVersus: ConstraintLayout,
-          val tbAction1: TextView, val tbAction2: TextView, val counterTop: LinearLayout,
-          val counterTime: TextView, val counterMoves: TextView, val movesCount: TextView, val counterScore: LinearLayout,
-          val scoreFirst: TextView, val scoreSecond: TextView, val gameGrid: ConstraintLayout, val res: DisplayMetrics) {
+               val tbAction1: TextView, val tbAction2: TextView, val counterTop: LinearLayout,
+               val counterTime: TextView, val counterMoves: TextView, val movesCount: TextView, val counterScore: LinearLayout,
+               val scoreFirst: TextView, val scoreSecond: TextView, val gameGrid: ConstraintLayout, val res: DisplayMetrics) {
 
     val cellWidth = ((374 * res.density) / 8).toInt()
     private fun normalWidth(percent: Double): Int = res.widthPixels - (res.widthPixels * percent).toInt()
