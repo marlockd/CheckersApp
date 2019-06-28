@@ -10,13 +10,20 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
     fun initTable() = cells.forEach { it.value.first.frame.addView(it.value.second.view) }
 
     fun isEmpty(cell: String): Boolean {
-        if (cell !in Grid().gameCells) throw IllegalArgumentException("$cell")
+        if (cell !in Grid().gameCells) throw IllegalArgumentException()
         return cells[cell]!!.second.player == 0
     }
 
     fun getTeam(cell: String): Int {
         if (cell !in Grid().gameCells) throw IllegalArgumentException()
         return cells[cell]!!.second.player
+    }
+
+    fun emptyInRange(startIndex: Int, endIndex: Int, vertical: List<String>): Boolean {
+        val cellRange = mutableListOf<String>()
+        for (i in startIndex + 1 until endIndex + 1) cellRange.add(vertical[i])
+        cellRange.forEach { if (!isEmpty(it)) return false }
+        return true
     }
 
     fun availableMoves(cell: String, gridCells: GridCells, init: Init, env: Env): Pair<List<String>, List<String>> {
@@ -57,28 +64,16 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
                 current = Grid().getVerticalByName(it.first, it.second)
                 val cellIndex = current.indexOf(cell)
                 var target = 0
-                if (cell == current.last()) {
-                    target = current.size - 3
-                    while (target != 0) {
-                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
-                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
-                        target--
-                    }
-                } else if (cell == current.first()) {
-                    for (target in 1 until cellIndex) {
-                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
-                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
-                    }
-                } else {
-                    target = cellIndex - 1
-                    while (target >= 0) {
-                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
-                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
-                        target--
-                    }
-                    for (target in cellIndex + 1 until current.size - 1) {
-                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "emptyMOVE") hover.add(current[target])
-                        if (Move(gridCells, init, env).targetCheck(cell, current[target]) == "busyENEMYgo") attack.add(current[target + 1])
+                var checkState = ""
+                current.forEach {
+                    val rs = it.takeLast(1).toInt() - cell.takeLast(1).toInt()
+                    checkState = Move(gridCells, init, env).targetCheck(cell, it)
+                    when (checkState) {
+                        "emptyMOVE" -> if (it != cell) hover.add(it)
+                        "busyENEMYgo" -> {
+                            if (it != cell && rs < 0) attack.add(current[current.indexOf(it) - 1])
+                            else if (it != cell && rs > 0) attack.add(current[current.indexOf(it) + 1])
+                        }
                     }
                 }
             }
