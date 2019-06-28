@@ -47,7 +47,8 @@ class GameActivity : AppCompatActivity() {
         }
         gridCells.initTable()
 
-        gridCells.cells["c3"]!!.second.setState(Pair("queen", 1))
+        //debug
+        //gridCells.cells["c3"]!!.second.setState(Pair("queen", 1))
 
         grid_cells.setOnTouchListener { view, motion ->
             TouchHandler(gridCells, init, env).touchActivityHover(TouchHandler(gridCells, init, env).handleTouch(motion, env.cellWidth))
