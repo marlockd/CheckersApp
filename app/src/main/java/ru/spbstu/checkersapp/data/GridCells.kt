@@ -81,6 +81,8 @@ data class GridCells(val cells: MutableMap<String, Pair<Cell, Figure>>) {
         return Pair(hover, attack)
     }
 
+
+
     fun setHover(cell: String, hoverBy: String) {
         cells[cell]!!.first.frame.setBackgroundResource(R.color.rc_grid_square_move)
         cells[cell]!!.first.state = "hover"

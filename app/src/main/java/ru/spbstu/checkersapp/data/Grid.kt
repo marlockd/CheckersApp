@@ -1,5 +1,8 @@
 package ru.spbstu.checkersapp.data
 
+import ru.spbstu.checkersapp.logic.Env
+import ru.spbstu.checkersapp.logic.Init
+
 class Grid {
 
     /**
@@ -122,9 +125,13 @@ class Grid {
         }
     }
 
-    fun verticalCheck(vertical: List<String>): Boolean {
-        verticals.values.forEach { if (vertical == it.first || vertical == it.second) return true }
-        return false
+    fun isNoAttack(team: Int, gridCells: GridCells, init: Init, env: Env): Boolean {
+        Grid().gameCells.forEach {
+            if (gridCells.cells[it]!!.second.player == team) {
+                if (!gridCells.availableMoves(it, gridCells, init, env).second.isEmpty()) return false
+            }
+        }
+        return true
     }
 
 }

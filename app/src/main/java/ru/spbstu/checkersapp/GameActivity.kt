@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.counter_score_names.*
 import kotlinx.android.synthetic.main.counter_time_moves.*
 import kotlinx.android.synthetic.main.game_grid.*
@@ -26,6 +27,13 @@ class GameActivity : AppCompatActivity() {
 
     fun cellById(id: String): FrameLayout = findViewById(resources.getIdentifier(
             "grid_cell_$id", "id", packageName)) ?: throw IllegalArgumentException()
+
+    fun endGame(team: Int) {
+        var winner = ""
+        if (team == 1) winner = init.firstPlayer
+        if (team == 2) winner = init.secondPlayer
+        Toast.makeText(this, "Game over! Winner is: $winner, overall moves count: ${init.movesList.size}", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

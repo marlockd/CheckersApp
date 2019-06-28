@@ -1,5 +1,6 @@
 package ru.spbstu.checkersapp.logic
 
+import ru.spbstu.checkersapp.GameActivity
 import ru.spbstu.checkersapp.data.Figure
 import ru.spbstu.checkersapp.data.Grid
 import ru.spbstu.checkersapp.data.GridCells
@@ -146,7 +147,10 @@ class Move(var gridCells: GridCells, var init: Init, var env: Env) {
         else if (team == 2 && (target[1] == '1')) gridCells.cells[target]!!.second.setState(Pair("queen", team))
         env.updateMoves(init)
         val extraAttack = gridCells.availableMoves(target, gridCells, init, env)
-        if (extraAttack.second.isEmpty()) init.changeTurn(env)
+        if (extraAttack.second.isEmpty()) {
+            if (init.isEnd() in 1..2) GameActivity().endGame(init.isEnd())
+            init.changeTurn(env)
+        }
         else extraAttack.second.forEach { gridCells.setAttack(it, target) }
     }
 

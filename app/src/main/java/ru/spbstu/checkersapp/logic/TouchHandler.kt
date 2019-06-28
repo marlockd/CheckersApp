@@ -43,7 +43,7 @@ class TouchHandler(var gridCells: GridCells, var init: Init, var env: Env) {
                     if (!gridCells.isEmpty(cell) && gridCells.cells[cell]!!.second.player == init.turn) {
                         availableMoves = gridCells.availableMoves(cell, gridCells, init, env)
                         gridCells.clearHover()
-                        if (availableMoves.second.isEmpty()) {
+                        if (Grid().isNoAttack(init.turn, gridCells, init, env)) {
                             availableMoves.first.forEach { gridCells.setHover(it, cell) }
                         } else availableMoves.second.forEach { gridCells.setAttack(it, cell) }
 
